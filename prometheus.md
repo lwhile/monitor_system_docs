@@ -22,3 +22,7 @@ Prometheus由SoundCloud开发并完全开源,使用Go语言编写.项目开始�
 ## 结构图:
 
 ![](https://prometheus.io/assets/architecture.svg)
+
+## 集群部署与配置:
+
+集群内使用一个结点作为prometheus server, 在需要被监控的机器或者服务上, 需要安装prometheus的exporter或者
