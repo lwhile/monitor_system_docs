@@ -38,11 +38,33 @@
             labels:
             instance: linux1
 
-两个prometheus server得到的数据如下:
 
-![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/dockerA1.png)
+接下来运行测试程序,让CPU和内存的使用率明显增加:
 
-![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/dockerB1.png)
+    func main() {
+        // 生成50万个goroutine
+        num := 100 * 100 * 50
+        end := make(chan struct{})
+        for i := 0; i < num; i++ {
+            go func(i int) {
+                if i == num-1 {
+                    end <- struct{}{}
+                }
+                fmt.Println("goroutine#", i)
+            }(i)
+        }
+        select {
+        case <-end:
+            fmt.Println("finish.")
+        }
+    }
+
+
+运行grafana,两个prometheus server得到的数据如下:
+
+![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/dockerA1B1.png)
+
+
 
 
         
