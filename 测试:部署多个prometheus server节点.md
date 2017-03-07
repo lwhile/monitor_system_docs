@@ -1,1 +1,1 @@
-[](https://github.com/lwhhhh/monitorDoc/blob/master/asset/images/multiple prometheus server.png)
+[](https://github.com/lwhhhh/monitorDoc/blob/master/asset/images/multiple%20prometheus%20server.png)
