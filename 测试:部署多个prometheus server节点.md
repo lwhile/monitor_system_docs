@@ -38,6 +38,11 @@
             labels:
             instance: linux1
 
+两个prometheus server得到的数据如下:
+
+![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/dockerA1.png)
+
+![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/dockerB1.png)
 
 
         
