@@ -4,7 +4,7 @@
 
 使用docker运行两个prometheus容器,监控node_exporter输出的系统指标
 
-## 测试指标
+## 关注的结果
 
 - 两个docker获取到的数据是否一致
 - 关闭其中一个docker容器查看另外一个容器是否能继续正常运行
