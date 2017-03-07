@@ -10,7 +10,8 @@
 
 - [prometheus简单介绍](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus.md)
 
-## 代码
+## 代码:
+
 有涉及到的相关代码存放在src目录下
 
 
@@ -18,4 +19,3 @@
 
 - [数人云SRE系列教程 | 基于时间序列数据的监控实践](http://blog.dataman-inc.com/shurenyun-sre-207/)
 - [时间序列数据库浅析](https://www.addops.cn/post/tsdb-elementary-analysis.html)
-- []

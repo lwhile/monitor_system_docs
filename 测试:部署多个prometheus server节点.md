@@ -34,8 +34,10 @@
     scrape_configs:
     - job_name: linux
         static_configs:
-        - targets: ['127.0.0.1:9100']
+        - targets: ['192.168.1.185:9100']
             labels:
             instance: db1
+
+
 
         
