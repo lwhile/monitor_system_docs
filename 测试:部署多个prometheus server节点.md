@@ -13,4 +13,4 @@
 
 ## 结构图
 
-![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/multiple%20prometheus%20server.png)
+![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/multiple_prometheus_server.png)
