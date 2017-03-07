@@ -36,7 +36,7 @@
         static_configs:
         - targets: ['192.168.1.185:9100']
             labels:
-            instance: db1
+            instance: linux1
 
 
 
