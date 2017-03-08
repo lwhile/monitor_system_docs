@@ -9,31 +9,22 @@ import (
 )
 
 var (
-	counter         prometheus.Counter
-	timer           *prometheus.Timer
-	requestDuration = prometheus.NewHistogram(prometheus.HistogramOpts{
-		Name:    "api_response_time",
-		Help:    "Histogram for the runtime of a simple example function.",
-		Buckets: prometheus.LinearBuckets(0.01, 0.01, 10),
-	})
+	counter prometheus.Counter
 )
 
 func sayHello(resp http.ResponseWriter, req *http.Request) {
-	counter.Add(1)
-	timer = prometheus.NewTimer(requestDuration)
-	//timer.ObserveDuration()
+	counter.Inc()
 	fmt.Fprint(resp, "Hello.")
 }
 
 func main() {
 	counter = prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "api_count",
-		Help: "test help",
-		//ConstLabels: prometheus.Labels{"a": "1", "b": "2"},
+		Help: "beego api counter",
 	})
 	prometheus.MustRegister(counter)
 	http.HandleFunc("/", sayHello)
-	go http.Handle("/metrics", promhttp.Handler())
+	http.Handle("/metrics", promhttp.Handler())
 	err := http.ListenAndServe(":8081", nil)
 	if err != nil {
 		panic(err)
