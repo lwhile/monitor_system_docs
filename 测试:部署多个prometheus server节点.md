@@ -8,7 +8,6 @@
 
 - 两个prometheus容器获取到的数据是否一致
 - 关闭其中一个docker容器查看另外一个容器是否能继续正常运行
-- 查看prometheus server存储的数据源是否有多个
 
 
 ## 结构图
@@ -85,3 +84,7 @@ prometheus server将采集到的数据存放到磁盘上,默认存放路径是�
 关于prometheus如何存储采集到的数据可以查看:
 
 [prometheus是如何存储数据的](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus是如何存储数据的.md)
+
+
+## 得到的信息:
+运行多个prometheus server实例能正确获取同个结点的数据,且某个实例挂掉不会影响其他实例,能保证监控服务的可用性.
