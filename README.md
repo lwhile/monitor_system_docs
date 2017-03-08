@@ -10,8 +10,7 @@
 
 - [prometheus简单介绍](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus.md)
 
-- [测试:部署多个prometheus server节点](https://github.com/lwhhhh/monitorDoc/blob/master/%E6%B5%8B%E8%AF%95%3A%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAprometheus%20server%E8%8A%82%E7%82%B9.md)
-
+- [x] [测试:部署多个prometheus server节点](https://github.com/lwhhhh/monitorDoc/blob/master/%E6%B5%8B%E8%AF%95%3A%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAprometheus%20server%E8%8A%82%E7%82%B9.md)
 ## 代码:
 
 有涉及到的相关代码存放在src目录下
