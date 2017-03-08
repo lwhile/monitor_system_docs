@@ -83,7 +83,7 @@
 prometheus server将采集到的数据存放到磁盘上,默认存放路径是运行目录下的data文件夹,而且一个prometheus server单独拥有一个保存数据的存储源.
 关于prometheus如何存储采集到的数据可以查看:
 
-[prometheus是如何存储数据的](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus是如何存储数据的.md)
+[prometheus是如何做数据存储的](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus是如何存储数据的.md)
 
 
 ## 得到的信息:

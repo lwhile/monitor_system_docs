@@ -6,11 +6,20 @@
 
 - [x] [push与pull的区别](https://github.com/lwhhhh/monitorDoc/blob/master/push%E4%B8%8Epull%E7%9A%84%E5%8C%BA%E5%88%AB.md)
 
-- [开源监控方案对比](https://github.com/lwhhhh/monitorDoc/blob/master/开源监控系统对比.md)
+- [ ] [开源监控方案对比](https://github.com/lwhhhh/monitorDoc/blob/master/开源监控系统对比.md)
 
-- [prometheus介绍](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus.md)
+- [ ] [prometheus介绍](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus.md)
 
 - [x] [测试:部署多个prometheus server节点](https://github.com/lwhhhh/monitorDoc/blob/master/%E6%B5%8B%E8%AF%95%3A%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAprometheus%20server%E8%8A%82%E7%82%B9.md)
+
+- [ ] [测试:如何监控beego](https://github.com/lwhhhh/monitorDoc/blob/master/测试:如何监控beego.md)
+
+- [ ] [如何编写prometheus监控组件](https://github.com/lwhhhh/monitorDoc/blob/master/如何编写prometheus监控组件.md)
+
+- [ ] [prometheus是如何做数据存储的](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus是如何做数据存储的.md)
+
+- [ ] [PromQL教程](https://github.com/lwhhhh/monitorDoc/blob/master/PromQL教程.md)
+
 
 ## 代码:
 
@@ -20,4 +29,5 @@
 ## 相关链接:
 
 - [数人云SRE系列教程 | 基于时间序列数据的监控实践](http://blog.dataman-inc.com/shurenyun-sre-207/)
+
 - [时间序列数据库浅析](https://www.addops.cn/post/tsdb-elementary-analysis.html)

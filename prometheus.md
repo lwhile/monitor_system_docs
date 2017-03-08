@@ -1,6 +1,6 @@
 # prometheus
 
-项目地址: [prometheus](https://github.com/prometheus/prometheus)
+项目地址: [Github](https://github.com/prometheus/prometheus)
 
 官网: [prometheus.io](https://prometheus.io)
 
@@ -42,15 +42,16 @@ prometheus有两个最重要的组件,支撑其最基本的运行,分别是Serve
 与zabbix等监控系统不同,prometheus没有agent的概念,而是切分为job和exporter
 
 job用来监控自定义的服务,比如某些web业务,这类服务通常由某些个人或团体开发,不具有通用性.
+
 exporter用来监控某些通用的服务,比如操作系统,数据库,中间件的性能指标.[目前社区有多个exporter供开发者使用](https://prometheus.io/docs/instrumenting/exporters/)
 
-不管还是job还是exporter,开发者都能自由编写他们.相关教程请移步: [如何编写prometheus监控组件](ttps://github.com/lwhhhh/monitorDoc/blob/master/如何编写prometheus监控组件.md)
+不管还是job还是exporter,开发者都能自由编写他们.相关教程请参考: [如何编写prometheus监控组件](https://github.com/lwhhhh/monitorDoc/blob/master/如何编写prometheus监控组件.md)
 
 ### server:
 
-job和exporter采集target的数据,就由server来收集并储存.prometheus采用的是pull模型,需要server主动去job或者exporter索取.关于pull和push模型的区别移步:[push与pull的区别](https://github.com/lwhhhh/monitorDoc/blob/master/push%E4%B8%8Epull%E7%9A%84%E5%8C%BA%E5%88%AB.md)
+job和exporter采集target的数据,就由server来收集并储存.prometheus采用的是pull模型,需要server主动去job或者exporter索取.关于pull和push模型的区别参考:[push与pull的区别](https://github.com/lwhhhh/monitorDoc/blob/master/push%E4%B8%8Epull%E7%9A%84%E5%8C%BA%E5%88%AB.md)
 
-server拿到数据后会将数据保存到磁盘上,关于prometheus server是如何存储数据的内容请移步: [prometheus是如何存储数据的](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus是如何存储数据的.md)
+server拿到数据后会将数据保存到磁盘上,关于prometheus server是如何存储数据的内容请参考: [prometheus是如何做数据存储的](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus是如何存储数据的.md)
 
 
 server不仅仅请求和保存数据,还有另外一个重要的功能是提供一种叫做PromQL的语法做查询,类似于SQL.接下来提到的数据展示功能都依赖与该功能.
