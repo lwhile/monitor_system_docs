@@ -42,7 +42,7 @@ Counter必须从0开始计数.
         // 初始化counter
         counter = prometheus.NewCounter(prometheus.CounterOpts{
             Name: "api_count",
-            Help: "beego api counter",
+            Help: "web api counter",
         })
         // 注册该counter,这一步是必须的
         prometheus.MustRegister(counter)
@@ -60,6 +60,15 @@ Counter必须从0开始计数.
 
 
 ## Gauge:
+
+Gauge在Counter的基础上,取消了单调递增的限制,允许增加或减少,以及直接设置.
+
+    inc(): 进行加1操作
+    inc(v double): 进行加v操作
+    dec(): 进行减1操作
+    dec(v double): 进行减v操作
+    set(v double): 将gauge的值设置为v
+
 
 ## Summary:
 

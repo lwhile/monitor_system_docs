@@ -10,10 +10,12 @@ import (
 
 var (
 	counter prometheus.Counter
+	guage   prometheus.Gauge
 )
 
 func sayHello(resp http.ResponseWriter, req *http.Request) {
 	counter.Inc()
+	guage.SetToCurrentTime()
 	fmt.Fprint(resp, "Hello.")
 }
 
@@ -25,6 +27,13 @@ func main() {
 	prometheus.MustRegister(counter)
 	http.HandleFunc("/", sayHello)
 	http.Handle("/metrics", promhttp.Handler())
+
+	guage = prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "api_gauge",
+		Help: "help",
+	})
+	prometheus.MustRegister(guage)
+
 	err := http.ListenAndServe(":8081", nil)
 	if err != nil {
 		panic(err)
