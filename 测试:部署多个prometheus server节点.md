@@ -65,6 +65,15 @@
 ![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/dockerA1B1.png)
 
 
+数据的波动曲线和预期一致.
+
+接下来关闭其中一个docker容器,模拟其中一个prometheus server挂掉
+
+得到的数据为:
+
+![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/dockerA2B2.png)
+
+可以看到dockerB容器已经停止了刷新
 
 
         
