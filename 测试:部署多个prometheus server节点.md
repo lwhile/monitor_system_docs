@@ -73,7 +73,9 @@
 
 ![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/dockerA2B2.png)
 
-可以看到dockerB容器已经停止了刷新
+可以看到右边的grafana已经停止了刷新,而左边的grafana依旧能正常获取node_exporter输出的数据
 
 
-        
+重新启动docker容器,grafana开始重新绘制,但没有绘制关闭前的监控数据
+
+![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/dockerA3B3.png)
