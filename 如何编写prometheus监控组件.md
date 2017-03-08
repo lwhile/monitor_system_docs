@@ -69,7 +69,9 @@ Gauge在Counter的基础上,取消了单调递增的限制,允许增加或减少
     dec(v double): 进行减v操作
     set(v double): 将gauge的值设置为v
 
+Gauge的基本使用与Couter类似,用法可参考Counter.
 
 ## Summary:
+待续
 
 ## Histogram:

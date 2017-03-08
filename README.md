@@ -8,7 +8,7 @@
 
 - [ ] [开源监控方案对比](https://github.com/lwhhhh/monitorDoc/blob/master/开源监控系统对比.md)
 
-- [ ] [prometheus介绍](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus介绍.md.md)
+- [x] [prometheus介绍](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus介绍.md)
 
 - [x] [测试:部署多个prometheus server节点](https://github.com/lwhhhh/monitorDoc/blob/master/%E6%B5%8B%E8%AF%95%3A%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAprometheus%20server%E8%8A%82%E7%82%B9.md)
 

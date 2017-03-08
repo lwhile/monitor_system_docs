@@ -59,7 +59,8 @@ server不仅仅请求和保存数据,还有另外一个重要的功能是提供�
 ### query:
 
 开发者可以使用多个可视化工具展示prometheus收集到的监控数据,比如prometheus自带的web ui,以及grafana.同时prometheus也提供了API供开发者调用这些数据.
+如何使用PromQL进行灵活的查询,可参考: [PromQL教程](https://github.com/lwhhhh/monitorDoc/blob/master/PromQL教程.md)
 
 ### altermanager:
 
-待续
+和其他监控系统一样.prometheus也提供了alter功能.目前支持通过Email进行告警.具体用法参考[ALERTING OVERVIEW](https://prometheus.io/docs/alerting/overview/)
