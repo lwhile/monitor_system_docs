@@ -76,6 +76,12 @@
 可以看到右边的grafana已经停止了刷新,而左边的grafana依旧能正常获取node_exporter输出的数据
 
 
-重新启动docker容器,grafana开始重新绘制,但没有绘制关闭前的监控数据
+重新启动docker容器,grafana开始重新绘制
 
 ![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/dockerA3B3.png)
+
+
+prometheus server将采集到的数据存放到磁盘上,默认存放路径是运行目录下的data文件夹,而且一个prometheus server单独拥有一个保存数据的存储源.
+关于prometheus如何存储采集到的数据可以查看:
+
+[prometheus是如何存储数据的](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus是如何存储数据的.md)
