@@ -47,6 +47,7 @@ Counter必须从0开始计数.
         // 注册该counter,这一步是必须的
         prometheus.MustRegister(counter)
         http.HandleFunc("/", sayHello)
+        // 该控制器方法作为server pull时的接口
         http.Handle("/metrics", promhttp.Handler())
         err := http.ListenAndServe(":8081", nil)
         if err != nil {

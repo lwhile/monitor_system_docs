@@ -14,6 +14,10 @@
 
 - [ ] [如何编写prometheus监控组件](https://github.com/lwhhhh/monitorDoc/blob/master/如何编写prometheus监控组件.md)
 
+- [x] [使用prometheus监控docker容器](https://github.com/lwhhhh/monitorDoc/blob/master/使用prometheus监控docker容器.md)
+
+- [ ] [整合prometheus与consul](https://github.com/lwhhhh/monitorDoc/blob/master/整合prometheus与consul.md)
+
 - [ ] [prometheus是如何做数据存储的](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus是如何做数据存储的.md)
 
 - [ ] [PromQL教程](https://github.com/lwhhhh/monitorDoc/blob/master/PromQL教程.md)
