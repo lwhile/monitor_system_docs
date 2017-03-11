@@ -37,3 +37,5 @@
 - [数人云SRE系列教程 | 基于时间序列数据的监控实践](http://blog.dataman-inc.com/shurenyun-sre-207/)
 
 - [时间序列数据库浅析](https://www.addops.cn/post/tsdb-elementary-analysis.html)
+
+- [基于nginx和consul构建高可用及自动发现的docker服务架构](http://www.jianshu.com/p/9976e874c099)

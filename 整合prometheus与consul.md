@@ -5,10 +5,12 @@
 
 关于consul的更多介绍可以参考:[consul.io](https://www.consul.io/)
 
-本文的实验用到的结构为:
+本次实验用到的结构为:
 
 ![](https://raw.githubusercontent.com/lwhhhh/monitorDoc/master/asset/images/prometheus-consul.png)
 
 使用4个docker运行做consul的agent,其中dockerA和dockerD做server,dockerB和dockerC做client.同时4个容器都运行prometheus server服务,向node-exporter获取监控数据
 
 四个容器得到的数据再通过grafana做可视化.
+
+### 待续...
