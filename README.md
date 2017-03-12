@@ -18,7 +18,7 @@
 
 - [ ] [整合prometheus与consul](https://github.com/lwhhhh/monitorDoc/blob/master/整合prometheus与consul.md)
 
-- [ ] [prometheus是如何做数据存储的](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus是如何做数据存储的.md)
+- [x] [prometheus是如何做数据存储的](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus是如何做数据存储的.md)
 
 - [ ] [PromQL教程](https://github.com/lwhhhh/monitorDoc/blob/master/PromQL教程.md)
 
