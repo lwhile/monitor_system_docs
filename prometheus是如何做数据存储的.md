@@ -1,6 +1,39 @@
 # prometheus是如何做数据存储的
 
 
+## 内存使用  
+
+prometheus会将最经常使用的数据块保持在内存中,默认保存的数据块数量是1048576个.(如果使用type1方式编码,每个数据块大小是1024字节,那么该情况下缓存的数据量会是1GB)
+
+可以配置
+> storage.local.memory-chunks
+
+修改缓存的数据块数量
+
+另外要注意,内存实际占用空间不能简单做乘法得出,存储层也会占用一些空间.在极端情况下,如果所有的数据块都被同时使用,缓存的数据量可能会远远大于已配置的数值.在生产环境使用之前应当做好充分的测试.
+
+测试时有两个参数可以提供帮助:
+> prometheus_local_storage_memory_chunks 
+
+> process_resident_memory_bytes
+
+根据经验, 至少应该预留3倍缓存的空间.
+
+
+还需要注意一点,PromQL的查询实现依赖于LevelDB提供的索引支持,如果大量使用PromQL做查询,那么可能需要调整索引缓存的大小.涉及到的参数有:
+
+> -storage.local.index-cache-size.label-name-to-label-values: 用于正则匹配.
+
+> -storage.local.index-cache-size.label-pair-to-fingerprints: Increase the size if a large number of time series share the same label pair or name.
+
+
+
+> -storage.local.index-cache-size.fingerprint-to-metric  
+> -storage.local.index-cache-size.fingerprint-to-timerange :
+> Increase the size if you have a large number of archived time series, i.e. series that have not received samples in a while but are still not old enough to be purged completely.
+
+ 如果需要查询的时间序列超过10万条,那么单次查询所需的内存空间可能就要超过100Mib.所以如果内存空间足够的话,应当尝试分配更多的内存空间给予LevelDB
+
 ## 存储结构
 
 prometheus会对样本数据进行分块处理,每块的大小为1024字节.
@@ -112,35 +145,3 @@ data不动
 假设检测的数据为系统的硬件指标,即node-exporter的输出(145756个字节),且集群中有10台机器,那么24个小时的数据量将不超过200m.假设监控数据保留1个月,那么大概需要6-7G左右的空间
 
 
-## 内存使用  
-
-prometheus会将最经常使用的数据块保持在内存中,默认保存的数据块数量是1048576个.(如果使用type1方式编码,每个数据块大小是1024字节,那么该情况下缓存的数据量会是1GB)
-
-可以配置
-> storage.local.memory-chunks
-
-修改缓存的数据块数量
-
-另外要注意,内存实际占用空间不能简单做乘法得出,存储层也会占用一些空间.在极端情况下,如果所有的数据块都被同时使用,缓存的数据量可能会远远大于已配置的数值.在生产环境使用之前应当做好充分的测试.
-
-测试时有两个参数可以提供帮助:
-> prometheus_local_storage_memory_chunks 
-
-> process_resident_memory_bytes
-
-根据经验, 至少应该预留3倍缓存的空间.
-
-
-还需要注意一点,PromQL的查询实现依赖于LevelDB提供的索引支持,如果大量使用PromQL做查询,那么可能需要调整索引缓存的大小.涉及到的参数有:
-
-> -storage.local.index-cache-size.label-name-to-label-values: 用于正则匹配.
-
-> -storage.local.index-cache-size.label-pair-to-fingerprints: Increase the size if a large number of time series share the same label pair or name.
-
-
-
-> -storage.local.index-cache-size.fingerprint-to-metric  
-> -storage.local.index-cache-size.fingerprint-to-timerange :
-> Increase the size if you have a large number of archived time series, i.e. series that have not received samples in a while but are still not old enough to be purged completely.
-
- 如果需要查询的时间序列超过10万条,那么单次查询所需的内存空间可能就要超过100Mib.所以如果内存空间足够的话,应当尝试分配更多的内存空间给予LevelDB
