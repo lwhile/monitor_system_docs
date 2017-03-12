@@ -22,12 +22,7 @@ chunk-encoding为2时,使用的则是可变长的编码方式.这种编码比起
 |编码类型|压缩后样本大小|所用时间|
 |-------|----------|------|
 |1      | 3.3bytes | 2.9s|
-|2      |1.3bytes   |4.9s|
-
-
-|开始时间|结束时间|间隔|测试前|测试后|实际变化|预期|预期与实际差距|
-|------ |------|----|-----|-----|---|---|----|
-|14:22  |14:42 |20min|0   |1597440bytes|1597440bytes|576000-768000bytes|-2|
+|2      |1.3bytes  |4.9s|
 
 
 ## 测试:
@@ -57,38 +52,54 @@ data不动
 原始大小: 10 min * 60s / 5 * 145756bytes = 17490720bytes
 压缩率: (17490720bytes - (2600960bytes - 1597440bytes)) / 17490720bytes ~= 94
 
-第三次:
+<!--第三次:
 开始时间:15:23
 结束时间:17:03
 间隔:   100min
 结束大小:7720960bytes
 原始大小: 100min * 60s / 5 * 145756bytes = 174907200bytes
-压缩率: (174907200 - (7720960 - 2600960)) / 174907200 ~= 97%
+压缩率: (174907200 - (7720960 - 2600960)) / 174907200 ~= 97%-->
 
+
+第三次:
+开始时间:08:40
+结束时间:11:15
+开始大小:10640
+结束大小:14784
+间隔: 155min
+原始大小: 155 * 60 / 5 * 145756 = 271106160
+压缩率: (271106160 -  (14784 - 10640) * 1024)  / 271106160 ~= 98%
 
 第四次:
-开始时间:23:57
-结束时间:08:02
-开始大小:7540
-结束大小:10640
-
+开始时间: 12:13
+结束时间: 12:23
+开始大小:14784
+间隔: 10min
+结束大小: 16404
+原始大小:10 min * 60s / 5 * 145756bytes = 17490720bytes
+压缩率: (17490720 - (16404-14784)*1024)/17490720 = ~90%
 
 第五次:
-开始时间:08:40
+开始时间:12:28
 结束时间:
-开始大小:10640
-结束大小
+开始大小:14784
+结束大小:
+间隔:
+原始大小:
 
 
-|      |用时   |抓取频率  |数据变化量(bytes)|未压缩大小(bytes)|压缩率|
+|      |用时   |抓取频率  |数据变化量(bytes)|原始大小(bytes)|压缩率|
 |------|------|---------|---------------|----------------|-----|
-|第一次 |10min |5s       |1003520        |17490720        | 94% |
-|第二次 |20min |5s       |1597440        |34981440        | 95% |
-|第三次 |100min|5s       |5120000        |174907200       | 97% |
+|第一次 |10min |5s       |+1003520       |17490720        | 94% |
+|第二次 |20min |5s       |+1597440       |34981440        | 95% |
+|第三次 |155min|5s       |+4243456       |271106160       | 98% |
+|第四次 |10min |1s       |+1658880       |17490720        | 90% |
 
-## 内存使用
 
-prometheus会将最经常使用的数据块保持在内存中,默认的数据块数量是1048576个.(使用type1方式编码的话,每个数据块大小是1024字节,那么该情况下缓存的数据量会是1GB)
+
+## 内存使用  
+
+prometheus会将最经常使用的数据块保持在内存中,默认保存的数据块数量是1048576个.(如果使用type1方式编码,每个数据块大小是1024字节,那么该情况下缓存的数据量会是1GB)
 
 可以配置
 > storage.local.memory-chunks
@@ -111,9 +122,10 @@ prometheus会将最经常使用的数据块保持在内存中,默认的数据块
 
 > -storage.local.index-cache-size.label-pair-to-fingerprints: Increase the size if a large number of time series share the same label pair or name.
 
-> -storage.local.index-cache-size.fingerprint-to-metric  
-> -storage.local.index-cache-size.fingerprint-to-timerange
 
- Increase the size if you have a large number of archived time series, i.e. series that have not received samples in a while but are still not old enough to be purged completely.
+
+> -storage.local.index-cache-size.fingerprint-to-metric  
+> -storage.local.index-cache-size.fingerprint-to-timerange :
+> Increase the size if you have a large number of archived time series, i.e. series that have not received samples in a while but are still not old enough to be purged completely.
 
  如果需要查询的时间序列超过10万条,那么单次查询所需的内存空间可能就要超过100Mib.所以如果内存空间足够的话,应当尝试分配更多的内存空间给予LevelDB
