@@ -86,9 +86,9 @@ data不动
 |第二次 |20min |5s       |1597440        |34981440        | 95% |
 |第三次 |100min|5s       |5120000        |174907200       | 97% |
 
-## 数据缓存
+## 内存使用
 
-prometheus会将最经常使用的数据块保持在内存中,默认是缓存的数据块数量是1048576个.(使用type 1编码的话,每个数据块大小是1024字节,那么该情况下缓存的数据量会是1GB)
+prometheus会将最经常使用的数据块保持在内存中,默认的数据块数量是1048576个.(使用type1方式编码的话,每个数据块大小是1024字节,那么该情况下缓存的数据量会是1GB)
 
 可以配置
 > storage.local.memory-chunks
@@ -105,7 +105,7 @@ prometheus会将最经常使用的数据块保持在内存中,默认是缓存的
 根据经验, 至少应该预留3倍缓存的空间.
 
 
-PromQL的查询实现依赖于LevelDB提供的索引支持,如果大量使用PromQL做查询,那么可能需要调整索引缓存的大小.涉及到的参数有:
+还需要注意一点,PromQL的查询实现依赖于LevelDB提供的索引支持,如果大量使用PromQL做查询,那么可能需要调整索引缓存的大小.涉及到的参数有:
 
 > -storage.local.index-cache-size.label-name-to-label-values: 用于正则匹配.
 
@@ -116,4 +116,4 @@ PromQL的查询实现依赖于LevelDB提供的索引支持,如果大量使用Pro
 
  Increase the size if you have a large number of archived time series, i.e. series that have not received samples in a while but are still not old enough to be purged completely.
 
- 如果需要查询的时间序列超过10万条,那么单次查询所需的内存空间可能就要超过100Mib.所以如果内存空间足够的话,应当尝试分配更多的内存给予LevelDB
+ 如果需要查询的时间序列超过10万条,那么单次查询所需的内存空间可能就要超过100Mib.所以如果内存空间足够的话,应当尝试分配更多的内存空间给予LevelDB
