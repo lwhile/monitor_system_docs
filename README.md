@@ -25,14 +25,9 @@
 - [ ] [PromQL教程](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/PromQL教程.md)
 
 
-- [ ] [进入prometheus目录](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/README.md)
-
-- [ ] [进入zabbix目录](https://github.com/lwhhhh/monitorDoc/blob/master/zabbix/README.md)
-
-
 ### zabbix
 
-- [ ] [zabbix安装指南](http://www.jianshu.com/p/4d98ff87db5f)
+- [ ] [zabbix安装指南(外链)](http://www.jianshu.com/p/4d98ff87db5f)
 
 
 ## todo:
