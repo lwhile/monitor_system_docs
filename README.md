@@ -27,8 +27,8 @@
 
 ### zabbix
 
-- [ ] [zabbix安装指南(外链)](http://www.jianshu.com/p/4d98ff87db5f)
-
+- [x] [zabbix安装指南](http://www.jianshu.com/p/4d98ff87db5f)
+- [ ] [zabbix介绍](https://github.com/lwhhhh/monitorDoc/blob/master/zabbix/zabbix介绍.md)
 
 ## todo:
 
@@ -40,6 +40,10 @@
 
 
 ## 相关链接:
+
+- [庖丁解牛（一）：监控系统](https://zhuanlan.zhihu.com/p/20353718)
+
+- [庖丁解牛（二）：360集群控制系统概述](https://zhuanlan.zhihu.com/p/20378870?refer=auxten)
 
 - [数人云SRE系列教程 | 基于时间序列数据的监控实践](http://blog.dataman-inc.com/shurenyun-sre-207/)
 
