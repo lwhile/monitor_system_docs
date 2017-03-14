@@ -19,7 +19,7 @@ func sayHello(resp http.ResponseWriter, req *http.Request) {
 	fmt.Fprint(resp, "Hello.")
 }
 
-func main() {
+func test() {
 	counter = prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "api_count",
 		Help: "beego api counter",
