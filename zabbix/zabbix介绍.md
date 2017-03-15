@@ -170,10 +170,10 @@ Expression的基本形式如下:
 > {\<server>:\<key>.\<function>(\<parameter>)}\<operation>\<constant>
 
 
-> {www.zabbix.com:system.cpu.load[all,avg1].last(0)}>5 : www.zabbix.com这台机器CPU负载值是否大于5
+> {zabbix1:system.cpu.load[all,avg1].last(0)}>5 : zabbix1这台机器CPU负载值是否大于5
 
 
-> 	{www.zabbix.com:system.cpu.load[all,avg1].last(0)}>5|           {www.zabbix.com:system.cpu.load[all,avg1].min(10m)}>2 :  www.zabbix.com这台机器当前cpu负载是否大于5或者最近10分内的cpu是否负载大于2
+> 	{zabbix2:system.cpu.load[all,avg1].last(0)}>5|           {zabbix2:system.cpu.load[all,avg1].min(10m)}>2 : zabbix2这台机器当前cpu负载是否大于5或者最近10分内的cpu是否负载大于2
 
 
 
