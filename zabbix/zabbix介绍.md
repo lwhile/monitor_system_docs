@@ -97,3 +97,65 @@ zabbix支持自动添加监控目标,只需要提供IP范围,就能在机器新�
     shell command也可以换成相同输出的python脚本位置.
 
     之后只需要在web监控端添加httpcount这个item即可.
+
+
+## 获取监控数据
+
+监控数据的获取可以web前台或者API获取,因为这方面有需求所以特地拿API这一方式出来单独说明.
+
+以获取CPU负载的例子来说明,依旧是向zabbix server发送JSON-RPC请求:
+
+    {
+        "jsonrpc": "2.0",
+        "method": "graph.get",
+        "params": {
+            "output": "extend",
+            "sortfield": "name",
+            "hostid": "10084"
+        },
+        "auth": "50ba559f6d083aa6454b8b3c4c203baa",
+        "id": 1
+    }
+
+得到的响应是:
+
+    {
+        "jsonrpc": "2.0",
+        "result": [
+        
+            {
+                "graphid": "481",
+                "name": "CPU load",
+                "width": "900",
+                "height": "200",
+                "yaxismin": "0.0000",
+                "yaxismax": "100.0000",
+                "templateid": "0",
+                "show_work_period": "1",
+                "show_triggers": "1",
+                "graphtype": "0",
+                "show_legend": "1",
+                "show_3d": "0",
+                "percent_left": "0.0000",
+                "percent_right": "0.0000",
+                "ymin_type": "1",
+                "ymax_type": "0",
+                "ymin_itemid": "0",
+                "ymax_itemid": "0",
+                "flags": "0"
+            }
+        ],
+        "id": 1
+    }
+
+前端再对JSON数据进行处理.zabbix的API只支持JSON-RPC的形式,所以前端调用的时候也需要了解JSON-RPC的使用方法.也可以自己部署一个代理服务将JSON-RPC转换为Http的形式
+
+
+## zabbix的数据存储
+
+或许是开发时间早, 与这几年出现的监控系统不同,zabbix的数据是存储在关系性数据库里面的.
+这意味着数据量或者并发量大时,比起时序数据库,性能将会成为一个问题,需要进行优化.
+
+使用关系型数据库的最大好处就是继承了数据库的各种高级功能如分区,读写分离,主从备份等.
+
+## 告警系统
