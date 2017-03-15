@@ -18,7 +18,7 @@ zabbix属于CS架构,Server端基于C语言编写,相比其他语言具有一定
 
 接下来我们进一步了解zabbix,为技术选型提供更多帮助.
 
-### 安装:
+## 安装:
 
 zabbix的安装比较繁琐,但也不算困难(主要是因为网上提供的资料足够多)
 
@@ -33,7 +33,7 @@ zabbix的安装比较繁琐,但也不算困难(主要是因为网上提供的资
 [zabbix安装指南](http://www.jianshu.com/p/4d98ff87db5f)
 
 
-### 数据的采集
+## 数据的采集
 
 在目标机器上采集数据(metrics)需要安装zabbix agent.
 
@@ -55,8 +55,45 @@ zabbix对分布式的数据采集非常好,支持两种分布式架构,一种是
 |产生通知       |×   |√    |
 
 
-### 监控目标的发现
+## 监控目标的发现
 
 zabbix支持自动添加监控目标,只需要提供IP范围,就能在机器新加入后使用已经设置好的模式进行监控.
 
 但是该机制不支持使用静态文件进行配置,只能在Web面板进行设置.
+
+## 二次开发
+
+二次开发的内容我们分为两个方面,一个是Zabbix API,一个是自定义监控目标.
+
+- Zabbix API:
+
+    Zabbix提供的API非常强大,提供了几乎Zabbix的所有功能,比如更新Item,添加Host监控等.
+
+    Zabbix API以HTTP服务的形式对外开发,并要求以JSON-RPC的方式发起请求.
+
+    举个例子,发出一个登录的请求:
+
+    > curl -i -X POST -H 'Content-Type: application/json' -d '{"jsonrpc":"2.0","method":"user.login","params":{"user":"Admin","password":"zabbix"}, "auth":null,"id":0}' http://127.0.0.1/zabbix/api_jsonrpc.php
+
+    能得到返回值:
+
+    > {"jsonrpc":"2.0","result":"3144f3ier0394efasdg342as","id":0}
+
+    官方也提供了很详细的API文档:
+
+    [Zabbix API Documentation](https://www.zabbix.com/documentation/2.2/manual/api)
+
+- 自定义监控目标
+
+    Zabbix使用编写脚本输出的方式自定义监控目标.
+    zabbix agent安装后会生成一份zabbix_agentd.conf文件,这个文件记录的监控项的配置.
+    添加监控项只需要在文件中添加如下形式的命令: 
+    > UserParameter=<key>,<shell command>
+
+
+    比如想监控http的连接数,我们需要在zabbix_agentd.conf中写入:
+    > UserParameter=httpcount, netstat -an | grep 192.168.1.126:80 wc -l
+    
+    shell command也可以换成相同输出的python脚本位置.
+
+    之后只需要在web监控端添加httpcount这个item即可.
