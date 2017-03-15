@@ -22,7 +22,7 @@ zabbix属于CS架构,Server端基于C语言编写,相比其他语言具有一定
 
 zabbix的安装比较繁琐,但也不算困难(主要是因为网上提供的资料足够多)
 
-我们需要安装关系型一种关系型数据库,目前提供的选择有MySQL,SQLite, PostgreSQL,Oracle,DB2
+我们需要一种关系型关系型数据库,目前提供的选择有MySQL,SQLite, PostgreSQL,Oracle,DB2
 
 接下来需要安装PHP的运行环境,Web服务器可是使用Apache或者Nginx都可以.
 
@@ -35,4 +35,21 @@ zabbix的安装比较繁琐,但也不算困难(主要是因为网上提供的资
 
 ### 数据的采集
 
-zabbix采集的数据的方式为proxy或agentpush给server.push和pull的区别可以参考[push与pull的区别](https://github.com/lwhhhh/monitorDoc/blob/master/push%E4%B8%8Epull%E7%9A%84%E5%8C%BA%E5%88%AB.md)
+在目标机器上采集数据(metrics)需要安装zabbix agent.
+
+agent采集到数据后,会立即push给proxy或者server 
+
+zabbix对分布式的数据采集非常好,支持两种分布式架构,一种是Proxy,一种是Node.Proxy作为zabbix server的代理去监控服务器,并发数据汇聚到Zabbix server.而Node本身就是一个完整的Zabbix server,
+使用Node可以将多个Zabbix server组成一个具有基层关系的分布式架构.
+
+两者的区别如下:
+
+|              |proxy|Node|
+|--------------|-----|----|
+|轻量级         |√    |×   |
+|GUI前端        |×    |√  |
+|是否可以独立运行 |√    |×   |
+|容易运维        |√   | ×   |
+|本地Admin管理   |×   |√   |
+|中心化配置      |√   |×    |
+|产生通知       |×   |√    |
