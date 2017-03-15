@@ -159,3 +159,21 @@ zabbix支持自动添加监控目标,只需要提供IP范围,就能在机器新�
 使用关系型数据库的最大好处就是继承了数据库的各种高级功能如分区,读写分离,主从备份等.
 
 ## 告警系统
+
+zabbix的报警功能很强大...同时也很复杂.
+zabbix的报警单位叫做Trigger(触发器),分为两个状态(2.X后的版本),"OK","Problem".
+
+Trigger使用Expression配置Trigger的判断逻辑,通过Expression可以很灵活得实现需求.
+
+Expression的基本形式如下:
+
+> {\<server>:\<key>.\<function>(\<parameter>)}\<operation>\<constant>
+
+
+> {www.zabbix.com:system.cpu.load[all,avg1].last(0)}>5 : www.zabbix.com这台机器CPU负载值是否大于5
+
+
+> 	{www.zabbix.com:system.cpu.load[all,avg1].last(0)}>5|           {www.zabbix.com:system.cpu.load[all,avg1].min(10m)}>2 :  www.zabbix.com这台机器当前cpu负载是否大于5或者最近10分内的cpu是否负载大于2
+
+
+
