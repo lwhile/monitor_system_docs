@@ -169,6 +169,7 @@ Expression的基本形式如下:
 
 > {\<server>:\<key>.\<function>(\<parameter>)}\<operation>\<constant>
 
+使用例子: 
 
 > {zabbix1:system.cpu.load[all,avg1].last(0)}>5 : zabbix1这台机器CPU负载值是否大于5
 
