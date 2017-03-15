@@ -28,7 +28,7 @@
 ### zabbix
 
 - [x] [zabbix安装指南](http://www.jianshu.com/p/4d98ff87db5f)
-- [ ] [zabbix介绍](https://github.com/lwhhhh/monitorDoc/blob/master/zabbix/zabbix介绍.md)
+- [x] [zabbix介绍](https://github.com/lwhhhh/monitorDoc/blob/master/zabbix/zabbix介绍.md)
 
 ## todo:
 
