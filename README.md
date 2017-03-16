@@ -30,6 +30,12 @@
 - [x] [zabbix安装指南](http://www.jianshu.com/p/4d98ff87db5f)
 - [x] [zabbix介绍](https://github.com/lwhhhh/monitorDoc/blob/master/zabbix/zabbix介绍.md)
 
+### InfluxDB
+
+- [ ] [InfluxDB介绍.md](https://github.com/lwhhhh/monitorDoc/blob/master/InfluxDB/InfluxDB介绍.md)
+
+- [ ] [使用InfluxDB做监控平台](https://github.com/lwhhhh/monitorDoc/blob/master/InfluxDB/使用InfluxDB做监控平台.md)
+
 ## todo:
 
 [进度](https://github.com/lwhhhh/monitorDoc/blob/master/进度.md)
