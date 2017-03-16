@@ -23,4 +23,8 @@ InfluxDB是一款使用Golang编写的开源时序数据库,其最大特点有:
 - lib: 和执行相关的文件
 - share: 存放共享数据
 
-接下来我们需要的两个文件分配是etc/influxdb/influxdb.conf(注意不是/etc)和usr/bin下的可执行文件(也注意bs/usr)
+接下来我们需要的两个文件分配是etc/influxdb/influxdb.conf(注意不是/etc)和usr/bin下的可执行文件(也注意不是/usr)
+
+
+这时候我们先把influxdb放一边,先安装collectd,做数据的采集器
+
