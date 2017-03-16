@@ -28,3 +28,4 @@ InfluxDB是一款使用Golang编写的开源时序数据库,其最大特点有:
 
 这时候我们先把influxdb放一边,先安装collectd,做数据的采集器
 
+ 
