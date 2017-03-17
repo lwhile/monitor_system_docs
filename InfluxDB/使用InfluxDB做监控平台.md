@@ -6,8 +6,10 @@ InfluxDB是一款使用Golang编写的开源时序数据库,其最大特点有:
 - 提供了一个类似于SQL的查询语言并且一系列内置函数方便用户进行数据查询
 - InfluxDB支持基于HTTP的数据插入与查询。同时也接受直接基于TCP或UDP协议的连接
 
-同时0.8.4版本之后官方集成了collectd插件,可以很方便那它做监控系统使用.下面介绍了如何搭建一个最简单的InfluxDB + collectd的试验环境.
+同时0.8.4版本之后官方集成了collectd插件,可以很方便那它做监控系统使用.
 
+
+## 安装:
 
 首先在官网下载执行文件,官网提供了三种安装方式,一种是使用docker,一种是针对特定操作系统的安装文件,一种是编译后的二进制文件.我在这里选择最后一种.
 
@@ -67,6 +69,52 @@ InfluxDB是一款使用Golang编写的开源时序数据库,其最大特点有:
 > sudo ./usr/bin/influxd -config=etc/influxdb/influxdb.conf
 
 
-打开htpt://host:8083可以进入influxdb的web管理端
+打开http://host:8083可以进入influxdb的web管理端,创建一个名叫collectd的数据库
 
+
+## 查询:
+
+influxdb提供两种查询途径,一种是基于http的API请求,一种是使用类似SQL的查询语法.
+
+通过http的方式获取CPU的使用情况:
+
+> curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "db=collectd" --data-urlencode "q=SELECT \"value\" FROM \"cpu_load_short\" 
+
+返回:
+
+    {
+        "results": [
+            {
+                "statement_id": 0,
+                "series": [
+                    {
+                        "name": "cpu_load_short",
+                        "columns": [
+                            "time",
+                            "value"
+                        ],
+                        "values": [
+                            [
+                                "2015-01-29T21:55:43.702900257Z",
+                                2
+                            ],
+                            [
+                                "2015-01-29T21:55:43.702900257Z",
+                                0.55
+                            ],
+                            [
+                                "2015-06-11T20:46:02Z",
+                                0.64
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+
+更多的API使用可以参考官方文档:
+[API Reference](https://docs.influxdata.com/influxdb/v1.2/tools/api/)
+
+## 二次开发
    
