@@ -26,6 +26,17 @@ InfluxDB是一款使用Golang编写的开源时序数据库,其最大特点有:
 接下来我们需要的两个文件分配是etc/influxdb/influxdb.conf(注意不是/etc)和usr/bin下的可执行文件(也注意不是/usr)
 
 
-这时候我们先把influxdb放一边,先安装collectd,做数据的采集器
+这时候我们先把influxdb放一边,先安装collectd,做数据的采集器.
+
+> sudo apt-get install collectd
+
+安装后配置/etc/collectd/collectd.conf
+
+启用LoadPlugin network(把注释去掉即可),
+并配置influxdb的所在ip和接受端口
+
+    <Plugin network>
+            Server "127.0.0.1" "25826"
+    </Plugin>
 
    
