@@ -56,3 +56,5 @@
 - [时间序列数据库浅析](https://www.addops.cn/post/tsdb-elementary-analysis.html)
 
 - [基于nginx和consul构建高可用及自动发现的docker服务架构](http://www.jianshu.com/p/9976e874c099)
+
+- [Prometheus及替代方案对比](https://addops.cn/post/comparison-to-alternatives.html)

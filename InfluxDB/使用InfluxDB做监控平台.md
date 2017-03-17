@@ -117,4 +117,5 @@ influxdb提供两种查询途径,一种是基于http的API请求,一种是使用
 [API Reference](https://docs.influxdata.com/influxdb/v1.2/tools/api/)
 
 ## 二次开发
-   
+
+待续
