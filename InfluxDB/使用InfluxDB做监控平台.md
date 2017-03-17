@@ -39,4 +39,34 @@ InfluxDB是一款使用Golang编写的开源时序数据库,其最大特点有:
             Server "127.0.0.1" "25826"
     </Plugin>
 
+重新启动collectd:
+
+> sudo /etc/init.d/collectd restart
+
+此时再回到InfluxDB,将collectd插件启动.
+
+
+    [[collectd]]
+        enabled = true
+        bind-address = ":25826" # the bind address
+        database = "collectd" # Name of the database that will be written to
+        retention-policy = ""
+        batch-size = 5000 # will flush if this many points get buffered
+        batch-pending = 10 # number of batches that may be pending in memory
+        batch-timeout = "10s"
+        read-buffer = 0 # UDP read buffer size, 0 means to use OS default
+        typesdb = "/usr/share/collectd/types.db"
+        security-level = "none" # "none", "sign", or "encrypt"
+        auth-file = "/etc/collectd/auth_file"
+
+
+**typesdb文件可在[这里](https://github.com/collectd/collectd/blob/master/src/types.db)下载**
+
+配置完后启动influxdb,我们需要指定使用的配置文件
+
+> sudo ./usr/bin/influxd -config=etc/influxdb/influxdb.conf
+
+
+打开htpt://host:8083可以进入influxdb的web管理端
+
    
