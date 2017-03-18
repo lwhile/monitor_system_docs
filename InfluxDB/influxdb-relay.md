@@ -1,7 +1,6 @@
 # influxdb-relay
 
-influxdb官方在闭源其集群组件时开源一个名为Influx-Relay的高可用套件,接下来对Influx-Relay做一些简单的介绍.
-
+influxdb官方在闭源其集群组件时开源一个名为Influx-Relay的高可用套件
 ```
         ┌─────────────────┐                 
         │writes & queries │                 
@@ -34,12 +33,23 @@ influxdb官方在闭源其集群组件时开源一个名为Influx-Relay的高可
    └──────────┘      └──────────┘           
  ```
 
- 
-influxdb-relay由一个负载均衡器,多个influxdb-relay实例和influxdb实例构成(多个指两个以上).负载均衡器会把UDP和HTTP的POST请求分发到influxdb-relay上,而将/query的get请求分发到influxdb server.
+## 入门介绍
+
+influxdb-relay由三部分构成:
+- 一个负载均衡器
+- 多个influxdb-relay实例(多个指两个以上)
+- 多个influxdb实例构成(多个指两个以上).
+
+负载均衡器会把UDP和HTTP的POST请求分发到influxdb-relay上,而将/query的get请求分发到influxdb server.
 
 
 
-influxdb-relay实例会持续监听HTTP或者UDP的写请求,如果写请求是通过http发出的,当集群中有任意一台influxdb server返回成功信息时或者状态码为4xx时,会立即将结果返回给客户端.如果状态码是5xx,而且是所有的influxdb server都给出了5xx,那么这个结果也会立即返回给客户端.但是如果只是部分服务器返回5xx,那么relay将会忽略这个5xx错误.
+influxdb-relay实例会持续监听HTTP或者UDP的写请求.
+
+如果写请求是通过http发出的,当集群中有任意一台influxdb server返回成功信息时或者状态码为4xx时,会立即将结果返回给客户端.
+
+如果状态码是5xx,而且是所有的influxdb server都给出了5xx,那么这个结果也会立即返回给客户端.
+但是如果只是部分服务器返回5xx,那么relay将会忽略这个5xx错误.
 
 
-在这种机制下,如果某个relay或者influxdb出现了异常,集群不会尝试做恢复操作,这个可能需要人工进行干预.
+所以在这种机制下,如果某个relay或者influxdb出现了异常,集群不会尝试做恢复操作,这个可能需要人工进行干预.
