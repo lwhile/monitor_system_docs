@@ -34,7 +34,7 @@
 
 - [ ] [InfluxDB介绍.md](https://github.com/lwhhhh/monitorDoc/blob/master/InfluxDB/InfluxDB介绍.md)
 
-- [ ] [使用InfluxDB做监控平台](https://github.com/lwhhhh/monitorDoc/blob/master/InfluxDB/使用InfluxDB做监控平台.md)
+- [x] [使用InfluxDB做监控平台](https://github.com/lwhhhh/monitorDoc/blob/master/InfluxDB/使用InfluxDB做监控平台.md)
 
 - [ ] [influxdb-relay](https://github.com/lwhhhh/monitorDoc/blob/master/InfluxDB/influxdb-relay.md)
 
