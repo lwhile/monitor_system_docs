@@ -36,6 +36,8 @@
 
 - [ ] [使用InfluxDB做监控平台](https://github.com/lwhhhh/monitorDoc/blob/master/InfluxDB/使用InfluxDB做监控平台.md)
 
+- [ ] [influxdb-relay](https://github.com/lwhhhh/monitorDoc/blob/master/InfluxDB/influxdb-relay.md)
+
 ## todo:
 
 [进度](https://github.com/lwhhhh/monitorDoc/blob/master/进度.md)
