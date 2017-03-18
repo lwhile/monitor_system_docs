@@ -118,4 +118,34 @@ influxdb提供两种查询途径,一种是基于http的API请求,一种是使用
 
 ## 二次开发
 
-待续
+接下来介绍如何基于colletcd + InfluxBD 做二次开发.
+
+collectd已经有很多插件可以使用,这些插件可以在官方网站或者社区里面找到.
+[官方提供插件列表](https://collectd.org/wiki/index.php/Table_of_Plugins)
+
+但是当一些需求没有现成的插件使用时,我们还是得自己编写.
+接下来我们要关注如何把自己的数据告诉collectd,以及collectd是如何将数据告诉InfluxDB的.
+
+collectd提供了一个叫做Exec的插件,用来执行特定脚本以及二进制文件,然后读取他们输出到STDOUT的数据.读取到的数据会被collectd的daemon进程当做监控数据处理.(这和Zabbix很像)
+
+
+以Go语言为例:
+
+    func collectd() {
+        unixTs := time.Now().Unix()
+        f := bufio.NewWriter(os.Stdout)
+        hostLabel := os.Hostname()
+        defer f.Flush()
+        b := "PUTVAL " + hostlabel + "/" + "bar" + "/" + "gauge-name " + strconv.Itoa(unixTs) + ":" + "value\n"
+        f.Write([]byte(b))
+    }
+
+
+代码中将一定格式的数据输出到了stdout上,collectd会自动从stdout上读取数据.
+数据的格式要求为:
+
+> 'PUTVAL'  {hostname  /application   /type-stat_name}   {epoch_time_stamp}:{value}
+
+如:
+
+> PUTVAL localhost/test/gauge-used-memory 1489799746:4834788
