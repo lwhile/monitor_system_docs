@@ -1,3 +1,27 @@
+# prometheus使用案例之Canonical
+
+Canonical是一家软件公司,Ubuntu就是他们最出名的产品.同时他们也使用OpenStack为客户提供私有云的搭建服务
+
+![](http://images.51cto.com/files/uploadimg/20110406/0943460.png)
+
+
+在使用prometheus之前,他们公司使用的监控系统基于Nagios,Graphite/Statsd,以及一个内部的Django应用搭建的,但是这一套系统并无法为Canonical内部以及他们客户的云端环境提供的足够的灵活性以及反馈.
+
+
+他们评估的几种选择,包括InfluxDB以及对Graphite进行扩展等方案,但在第一次尝试prometheus后,他们发现prometheus就是Canonical一直在寻找的简单和力量的组合.而且,他们公司的几位在谷歌工作的员工有Borgmon(prometheus就是模范Borgmon的开源实现)的使用经验,这大大激发他们的兴趣
+
+
+选择一个exporter花费了他们一段时间.最开始时他们想用collectd但是发现这样会导致一些限制.现在他们自己在开发openstack-exporter,但是发现还没有一个足够好,能够工作的例子帮助我们编写来自scratch的exporter
+
+
+
+在使用大量exporter后,他们发现编写一个能够提供足够有用指标的exporter非常容易,比如他们开发一个使用于云端环境的openstack-exporter,而且很快各个开发团队都开始接受prometheus了
+
+
+-----
+
+
+
 # prometheus使用案例之DigitalOcean
 
 DigitalOcean在PromCon 2016做了一次演讲,介绍了他们公司内部是如何使用prometheus做监控系统的.
