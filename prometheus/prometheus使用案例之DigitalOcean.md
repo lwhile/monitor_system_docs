@@ -8,23 +8,19 @@ DigitalOcean在PromCon 2016做了一次演讲,介绍了他们公司内部是如�
 DigitalOcean是美国一家公有云公司,目前业务体量上分布在13个区域中的2千万个SSD cloud servers.
 
 
-## Befer Prometheus:
-
 在使用prometheus之前,他们使用Graphite和OpenTSDB,Graphite用在小规模的应用上,而OpenTSDB则通过collectd做数据采集器,收集所有物理server的指标.同时也使用Nagios做警报系统.目前他们还在使用Graphite,但已经不适用OpenTSDB了.
 
 
 对于OpenTSDB,主要的原因很难让它在集群内有大量数据流入的时候保持在线状态,这个时候我们团队不得不启用新的服务提高集群的容量.后来我们使用了类似黑名单/白名单的功能,但还是无法得到真正的改善.同时其他团队开始抱怨查询语言和可视化工具是多么得令人失望.
 
-## 到prometheus的过渡
 
 之前是通过Collectd采集数据后发送到OpenTSDB,然后开始试验性得尝试让prometheus与collectd并行运行,同时也创建几个自定义的exporter用来采集SSD Cloud Server的一些指标.再后来prometheus的系统能为我们提供与OpenTSDB相同的特性的时候,开始关闭Collectd以及OpenTSDB集群.
-
-## 使用
 
 prometheus开始DigitalOcean正式使用后,他们开发一些工具,让prometheus server和一些通用的exporter能够更加容易使用
 
 最大的提升在于他们对hypervisor machines有了更多的了解.collectd和node exporter输出的数据的一样的,但是对于Go开发团队来说,他们能够更容易得定制每一台hyperviso的输出.同时也意味着接下来在学习和指导别人创建满足需求的指标时会更加容易.
 
-## 接下来的打算
 
-还是致力于让prometheus更加易用和自动化这方面,让其他团队的成员能够只关心查询和警告这两方面,在服务和数据库方面.
+还是致力于让prometheus更加易用和自动化这方面,让其他团队的成员能够只关心查询和警告这两方面,比如在服务和数据库方面.
+
+DigitalOcean也开源一个工具[vulcan](https://github.com/digitalocean/vulcan)用于保存长期数据,同时保留了PromQL
