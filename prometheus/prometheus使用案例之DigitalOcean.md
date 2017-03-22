@@ -18,3 +18,13 @@ DigitalOcean是美国一家公有云公司,目前业务体量上分布在13个�
 ## 到prometheus的过渡
 
 之前是通过Collectd采集数据后发送到OpenTSDB,然后开始试验性得尝试让prometheus与collectd并行运行,同时也创建几个自定义的exporter用来采集SSD Cloud Server的一些指标.再后来prometheus的系统能为我们提供与OpenTSDB相同的特性的时候,开始关闭Collectd以及OpenTSDB集群.
+
+## 使用
+
+prometheus开始DigitalOcean正式使用后,他们开发一些工具,让prometheus server和一些通用的exporter能够更加容易使用
+
+最大的提升在于他们对hypervisor machines有了更多的了解.collectd和node exporter输出的数据的一样的,但是对于Go开发团队来说,他们能够更容易得定制每一台hyperviso的输出.同时也意味着接下来在学习和指导别人创建满足需求的指标时会更加容易.
+
+## 接下来的打算
+
+还是致力于让prometheus更加易用和自动化这方面,让其他团队的成员能够只关心查询和警告这两方面,在服务和数据库方面.
