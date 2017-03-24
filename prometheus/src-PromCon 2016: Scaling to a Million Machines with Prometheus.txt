@@ -1,369 +1,369 @@
-0:00this is matthew from digitalocean last year at velocity Julius that I velocity
-0:06New York that many velocities we visited the digital ocean office and that was
-0:10the first time we realized somebody's out there that runs a bigger Prometheus
-0:15setup and soundcloud was pretty nice because we always consider ourselves the
-0:19biggest user of previous but then now there are many bigger uses i guess some
-0:24are doing real things but digitalocean scales to millions of machines that
-0:28that's what method will tell us about cool awesome thanks
-0:36yeah so the original top title was about scaling prometheus 2 million machines
-0:41but i thought i would change it to how we broke Prometheus in every way
-0:44possible
-0:45I think it's about more fun to talk about how we broke things and how we got
-0:49past all the breaking this is a show a hand here
-0:54who here has like a million things that they're monitoring with Prometheus all
-0:59there's one others to other people
-1:03ah well I mean I'm talking millions of scrape targets
-1:06ok how about tens of thousands thousands
-1:12okay we got like four alright and then hundreds i would expect at least the
-1:19whole audience should have hundreds ok cool so hopefully next year we'll have a
-1:24lot more people that will have much larger installations and we'll be
-1:27breaking new ground here so just really quick about me I work on the x use team
-1:33in digital ocean i live in bangkok so i may have traveled the farthest anybody
-1:39here travel farther than Bangkok to get here all indonesia alright awesome so I
-1:47I didn't win this one
-1:50yeah so i kinda want to structure this talk is kind of the dark days of
-1:57devotion before we found Prometheus to where we are now where we have a million
-2:03Prometheus servers so when I originally started at digital ocean every single
-2:08team had a different monitoring and metric solution
-2:12there's teams that were run
-2:13graphite their teams there were running influx DB and for some godforsaken
-2:18reason we had a 50 node openbsd be cluster which somehow inherited when I
-2:25started there so one of the first things we did was just turn that off so we
-2:33started using this Prometheus thing so I my managers of tiny and he's going to
-2:37give a talk later is a he's like this Prometheus thing looks pretty cool so we
-2:41started to use it and it was really small at the beginning we were just kind
-2:48of monitoring a few microservices here and there and basically each team had
-2:55their own Prometheus server and each team would manually set up their
-3:00community server with manual targets they would scrape each one of their
-3:04nodes every time a new microservice would come online they would just add a
-3:08new node to their to their manual configs right and as you can imagine
-3:14like this was like kind of a very untenable thing because all of a sudden
-3:19we were in charge of metrics but there were a hundred different metric servers
-3:23running in the company so what were all the different kinds of problems so like
-3:29once a group got a Prometheus server up they never upgraded the version so if
-3:34you want to run queries you would have different query functions on every
-3:37single group server and then when we were startup so we're vastly quickly
-3:42moving we would just lose / media servers and we would refine them when we
-3:46have issues or the ops team was having a problem we just went nowhere where to
-3:51look to find all the different metrics so we slowly try to like fix this
-3:58problem and if this was like kind of the first step and what we found was console
-4:06and Prometheus who here is using console and prometheus
-4:09yes like a quarter of the audience
-4:12hopefully I can convince to get like three fourths of the audience of the
-4:16awesome so the first step was was linking console with Prometheus which
-4:23was like was really fundamental so basically
-4:26we did is we got a set of centralized for media servers we call our pandora
-4:31and we linked everything every time a new microservice came up in the company
-4:36they would have a console entry for the metrics and . so that way we only added
-4:43the configs once into console and the Prometheus would get all the micro
-4:49service instances because a lot of times we would be spinning up and down
-4:52machines the ops teams can also if we have like a failed microservice they
-4:57might have to spin up new boxes and that way the metrics are still being flowing
-5:01into the Prometheus server so this is kind of like a diagram of how we started
-5:07to get there so now at this point we have maybe about a dozen teams and we're
-5:13monitoring a dozen different microservices with one Prometheus server
-5:17now a rather large Prometheus server but it was still one and we could we could
-5:22scale it out pretty quickly so everybody in the company was really happy so we
-5:29were we were slowly now like there was a clear movement now that pretty much all
-5:33the other metric systems were going away and we're going to move everything onto
-5:37Prometheus ok just this one hammer for everything right so the stage 2 so the
-5:48head of the ops team came to me and they said okay we want to monitor every
-5:53single one of our hypervisor so digitalocean is a cloud and basically
-5:57resale virtual machines so we have tens of thousands of servers across about 11
-6:02data centers and we wanted to take Prometheus from now from like a hundred
-6:07micro services that were monitoring 210 20,000 servers that we wanted to get
-6:12metrics from we said cool we'll try it out and see what happens right so the
-6:19first kind of the first way we experimented with this this diagram is a
-6:23bit hard to read but basically what we did was we we set up a single Prometheus
-6:27server / / data center and we have that Prometheus server scrape every single
-6:34physical node in the region using node exporter right
-6:38and for some of the smaller regions this work fine so if we had a thousand
-6:42machines 2000 machines we were able to actually scrape it some of the larger
-6:49regions like our new york data center we actually have three data centers in New
-6:52York we couldn't get 10,000 machines onto a single Prometheus server
-6:57obviously so was like okay what are all the kinds of tricks that we can do so
-7:04obviously the first thing we did was lower the retention window
-7:07we're just going to keep three days of data right like that's that's the first
-7:11one we started to add new flag to the note exporter so we could drop metrics
-7:17that weren't important so you see you'll see some of our people across on that
-7:20and then we kept buying larger and larger machines for the single
-7:24Prometheus instance until we kind of maxed out the machine that we could
-7:28actually buy for the Prometheus and we still couldn't get our new york region
-7:34so all of our other regions we could we could well all about a couple of the
-7:39region's we could do so we said before we do that the the other thing is is the
-7:48other thing we found out was that tuning is incredibly important there's actually
-7:52a good tuning dock on the website that you'll skip but if you're running up
-7:56Prometheus I didn't see it actually had to have the permit these guys come to
-8:03our office and tell us that there was a tuning guide so yes this guy SAT with me
-8:08so I that was the only reason we were able to scale it initially so whatever i
-8:14recommend if you're running Prometheus on a server that's more than eight
-8:17gigabytes of RAM which I hope you probably are you really have to tweak
-8:21each one of these settings
-8:23otherwise you're not going to use the full machine and there's really good
-8:27guides i'm not going to go deep into it but if you want to grab me i'm i'm happy
-8:31to show you like how we configure these things and how we how we actually
-8:35optimize a lot of these tuning options so the first thing we did was so now
-8:42that we wanted to tackle the big regions we started to shard the Prometheus
-8:46servers is anybody here using starting with prometheus
-8:50ok only about four people five people
-8:53okay yeah now I understand it's still a bit rough it's still a bit rough on the
-8:59charting so if you're not familiar with charting essentially in prometheus you
-9:06can configure a label that you want the Prometheus servers to short against so
-9:12what we ended up doing was having something like chef deploy multiple
-9:15previous servers and then tell each Prometheus server which node in the
-9:19shard it was and we were able to spin up like three Prometheus servers in the
-9:24region and we were able to scrape about 10,000 hypervisors and this actually
-9:29worked
-9:30we are able to scale this and we were able to get this onto about three
-9:34servers right but then here comes the problem there's no way to query the data
-9:40if you don't know where the data is on the different shards so we wrote this
-9:47thing in an afternoon literally called the Prometheus proxy and basically the
-9:53Prometheus proxy is a sharding proxy so for our internal users that digitalocean
-9:59we have a giant Groupon instance and the graft on instance . the Prometheus proxy
-10:05and the Prometheus proxy will determine will actually parse the Prometheus
-10:09queries and determine which shard to get the data from and that's how we are
-10:16actually able to like scale out and we could we could spin up like six or eight
-10:21different Prometheus servers and the previous proxy would handle it and graph
-10:24on I wouldn't have to know his grandfather has no idea of starting or
-10:28anything like that so it was really cool so if you took like a random Prometheus
-10:36query like this basically what would the Prometheus proxy would do would be break
-10:41down each part of the Prometheus query and it would pick a label seven for
-10:46instance we were using the instance label and it would actually determine
-10:51which of the nodes of the shard for that instance it would go to and that way you
-10:56could have things that didn't know anything about prometheus sharding could
-10:59use could use it
-11:01so then the next issue is where this was good so we can finally monitor all of
-11:09our data centers with Prometheus we could have 10,000 hypervisors monitored
-11:13and we're likecool
-11:15now i want to alert I want to alert because we hated nigeria's I don't know
-11:19it is anybody here hate messages
-11:21yes whole room His Majesty that was kind of a loaded question
-11:27so we're like maybe we could get rid of this not obvious thing if we just use
-11:34the alert manager and we did things like we get alerting on this space so at
-11:39least a year ago when we initially looked at the alerting manager there was
-11:42no really good way of doing a high-availability setup and for our
-11:47setup there is no option to not have high availability
-11:51I'm so what we ended up doing was we took a fork of the alert manager and we
-11:57backed it with just a my sequel database it was really simple so basically we
-12:03have the alert manager behind a load balancer and every alert goes into the
-12:06my sequel database and if it's already there it can do d duping and that way we
-12:12can have multiple alert managers going and then the clusters not going to fall
-12:16over
-12:17I think I looked at some of the new commits it looks like there's actually
-12:20now an interface to do this properly when we originally did this we really
-12:24had to hack it in and I think there's like a mesh interface that somebody's
-12:29adding which looks kinda cool but this was actually able to we actually were
-12:34able to get this into production and work pretty well and we could run this
-12:37at a scale you know thousands of alerts an hour
-12:41no problem you know yet so just to go back so now we've been running the
-12:51sharding for like a month or two and now we start to see all the real kind of
-12:56gotchas with the sharding right what happens when you need to grow the
-13:01cluster so as we were growing as a business we needed more Prometheus
-13:05servers
-13:06well if you want to add a sharp you've now just lost all your history right
-13:10because the distribution of the shard you have mission data
-13:15so we said okay the way will solve it is will just spin up 10 / media servers
-13:19instead of three in every region so we ended up having huge amounts of these
-13:24kind of like wasted Prometheus servers kind of laying around the other thing is
-13:30if we lost a single node we were losing data and we still had very limited data
-13:35windows so we were still operating and under like a week of data for most of
-13:40our servers so it's starting still didn't solve a lot of our problems
-13:47ok so then we were like okay how could we at least solve the data integrity
-13:52issue so we took that we took a step back and we said what if we store all
-14:00the metrics into Caprica before they come into Prometheus so we rebuilt a new
-14:07version of the push gateway and a special version of Prometheus that was a
-14:11scraper only and we had both push gateway in the scraper push data into a
-14:17Kappa and we did a special fork of Prometheus that was actually reading the
-14:22data from Caprica into memory so if we wanted to rebuild that if we wanted to
-14:27bri build the Prometheus instance we could rebuild the data from Africa or if
-14:31we wanted to rebuild the shard cluster we could rebuild it from the whole Kafka
-14:35so this was a really kind of a fun experiment we never actually went live
-14:40with this because we ended up going with a much better solution but it was kind
-14:44of an interesting half step of getting up being having some kind of reliability
-14:52so kind of the main project that I've been tasked for was giving metrics to
-15:00our customers so we have we have a we have something in the low millions of
-15:05customers right now like of actual virtual machines and for each virtual
-15:09machine we need to give very standard metrics and in fact we want to give like
-15:13custom metrics and stuff to our end users so we said we really wanted to
-15:18power this whole UI with Prometheus and we said okay how can we move from the
-15:24tens of thousands to a million servers with Prometheus and at the current
-15:29moment with the shorting solution it just didn't seem like that was going to
-15:32be a possible it was going to really be possible so we said we were looking
-15:38we've said all we're gonna have to dump Prometheus we have to do something else
-15:41so we started to dig into it and up and we started to build some new tools we
-15:51built a special version of the note exporter but it's a reverse note
-15:56exporter and basically what it is is it's a note explorer that we can give
-16:01the customers and it authenticates and it pushes data to digital ocean so if
-16:06you want to get metrics about your virtual machine or you're my sequel or
-16:09stuff you install it on your virtual machine and it pushes into a special
-16:13push gateway that is authenticated and the first reason we did this is that way
-16:19we can out we can have like a funnel into Prometheus so we can have the push
-16:24gateway actually be kind of like this push back into Prometheus and we can
-16:30authenticate because right now there's no really good way to do if you have
-16:33untrusted Prometheus entries there's no good way to like have trust
-16:38relationships we also built a special clearing API on top of Prometheus where
-16:46we built the grp see an HTTP server for customers and what we do is we limit the
-16:52amount of Prometheus queries that they can actually go into the Prometheus back
-16:57end so we can still take advantage of all the nice query create capabilities
-17:01without people potentially stealing data from different custom
-17:07and I don't know if you saw twitter but we just came out with this new thing
-17:11called Vulcan basically Vulcan is kind of our for prometheus right now and the
-17:18way to think of this is that Vulcan is kind of our experiment with Prometheus
-17:23and what I hope is over time these pieces slowly but surely moved back into
-17:28the core Prometheus and that Vulcan just could go away but for now like this is
-17:33kind of how we're we're actually scaling Prometheus and what what is Vulcan it's
-17:39completely the Prometheus API in fact we use the entire crew Prometheus code base
-17:44except that instead of a local store we use a Cassandra back store and instead
-17:51of just regular we have regular scrapers but all the scrapers go into Casca and
-17:58we have special katha writers from Africa into Cassandra so that way the
-18:04Prometheus server can scale out with a centralized database and can actually
-18:08scale up to like a million machines now right now we've had a like limit the
-18:13amount of query types we need to do we can do against the sender store but
-18:19that's what we're going to be scaling overtime and I saw like some of the
-18:24latest commit and master it looks like some other people must be working on
-18:27some similar stuff because all the interfaces on local storage change
-18:31sounds like how that's quite odd so hopefully if you're working on something
-18:36you should grab me a maybe we can that we can all collaborate so here's kind of
-18:42a diagram of how r Cassandra back store works well this is a bit fuzzy but
-18:47basically what's happening is in each region we have metrics scrapers and push
-18:54gateways and they're all pushing data into a data store we have a special
-19:00reader from the castle score that's driving directly into Cassandra and then
-19:05we have a special version of Prometheus that can read from the can read from the
-19:11Cassandra store so Prometheus really doesn't need to know anything about
-19:17casca but it allows it to it and then it just it only does read
-19:21now so it does no writing
-19:26and now we can start doing cool features like down sampling right and we do a
-19:33really crazy half of how we do down sampling so what I do is I run it in
-19:39memory version of Prometheus and I feed it the data from Africa and I only keep
-19:44it for the . i need and then I just make queries against it and i use those
-19:48queries and I write them into Cassandra so the downsampling engine is actually
-19:53Prometheus so it would be really easy to probably to take the downsampling we've
-19:57done and kind of rebuild it into the corporate media server because we needed
-20:02to get intervals of up to 18 months and at our size we couldn't we couldn't
-20:07store raw data at that size the other kind of really fun thing is we built an
-20:17in-memory alerting system and this is kind of something that i'm actually
-20:21working on right now
-20:22not this parts not open source yet but i really wanted the alerting system to be
-20:27really high availability because we're going to start giving it the customers
-20:30so customers can say like if the disc of their virtual machine fails so now we
-20:35have millions of machines that we need to alert on
-20:38so what we've done is we take a very standard in memory version of Prometheus
-20:44and we have it scrape Africa source into memory and we just have standard
-20:50alerting rules in there and the alerting rolls just push into a another caste
-20:55system so we can actually reuse a huge portion of the actual of the Prometheus
-21:00system and make it high availability because each chunk is just reading a
-21:04different capitata partition
-21:10so what is the future some of the things that I would like I would love to see is
-21:21new scraping sources inside of Prometheus so right now it's quite
-21:26difficult to scrape things that aren't HTTP so i would love to see a way for
-21:31things like can say forecast to be actually scraped into the corporate
-21:34media server that would actually open up a lot of opportunities one of the
-21:42biggest issues we've seen is $MONEY per series expire ease of time series
-21:48it seems like the plug-in storage stuff is being worked on
-21:51I know some people on the mailing list have been talking about using remote
-21:54storage but we ended up using the local interface and we found that ended up
-21:58working a lot better for us and really having high availability
-22:03alerting so to kind of wrap it up
-22:08I talked a lot of kind of about the future where we're going with Cassandra
-22:12and this but for the vast majority of the people here I don't think you need
-22:17that yet maybe you'll need that in a year or two when you've really grown
-22:20with the Prometheus but i kinda wanted to illustrate like the different scales
-22:24that we had and things like the sharding or lesser sent Federation should be able
-22:30to handle much smaller loads of even thousands of servers so you don't have
-22:35to feel like you have to do a very custom solution yet but we're always
-22:41looking for help we just open source star Vulcan so please uh please do some
-22:47commits treating
-22:50and that's it
-23:00right i was a lot of stuff i guess there are some questions okay could you
-23:10describe the case and rescue members say that again
-23:14could you describe the custom rescue mother to use to store . sinrich bones
-23:18all this Cassandra schemer
-23:21yeah so the contender schema basically right now it's really simple
-23:26we basically have just a couple tables we have a table that describes all the
-23:30time series and then we have another one that / time-series key we actually have
-23:36all the the data points for that time series and then we break it down by time
-23:41periods for downsampling we actually have a separate tables for down sampling
-23:47you spoke about Vulcan your fork of parameters
-23:55how do you handle it with Prometheus upstream to emerge change that are in
-24:00prometheus into a Vulcan to keep compatibility or is Vulcan completely
-24:05separate for now yeah so we've not been great about this because I was trying to
-24:13pull down stream the other day and all the interface has changed but we are we
-24:18are trying to keep ours at least downstream of Prometheus so that way
-24:23like when we start to want to contribute stuff backwards will be in a good shape
-24:28we haven't moved anything backwards because this has been a large experiment
-24:32we weren't even really sure if this was going to work at all
-24:39hi can you talk more about the push gateway and how that factored into
-24:46authenticating for multi-tenancy cometh right so that yeah so the problem we
-24:53have is that the standard push gateway allows you to send any metric in right
-24:59so one customer could pretend to be another customer right so what we do is
-25:04we have we have a api token that the agent sends to the our special version
-25:11of the push gateway and it limits the metrics you send to only machines that
-25:15you own so we actually tagged the machine ID so that way they can they can
-25:21only they can only spam their own metrics
-25:26I had a question about the reverse note exporter is that something you is in the
-25:34Vulcan source or is that open source at all
-25:37Carlos do we open sourced yet we're well it's on the list at the open-source it's
-25:43not part of Vulcan because it actually works with the standard it works with
-25:48standard / media server so we it's definitely like very high on our list
-25:52open source
-25:53yeah yeah
-26:02either I'm what you shot on in the Africa right now we're doing it on
-26:10customer on that the other way you would do it is probably machine so typically
-26:16for us we never need to do queries across customers and internally we never
-26:21need to do crazy across machines typically
-26:25there is some I think somebody in the front here and the second you said that
-26:31I'm influencing using the local storage interface was easier than the remote
-26:36storage interface did you use the most origins face and he talked a bit more
-26:40about that or problems you encountered all right so we kind of wanted our
-26:46server to be very well integrated into prometheus
-26:49the problem is we weren't i think the remote storage interface is really for
-26:54writing there's not a great story on how to read from the remote storage
-26:59interface and we mostly wanted to read so we really needed to use the local
-27:04storage was really the only interface that could do all the functionality
-27:08there's actually no story i'm reading for I want to ask instead of a
-27:16notification and some of the things you mention it wasn't a possibility to just
-27:20force per unit per customer labeled that could separate the data
-27:27yes we do have we do force a per customer label but we need to
-27:32authenticate it still so that way like random people on the internet because
-27:35it's internet-facing service so you can't just spend up just start writing
-27:40random metrics to our end .
-27:44yeah hi you mentioned that you had scrapers local to the data center
-27:52pushing been into a volcano I guess is that possible to push through it into a
-27:59vanilla Prometheus setup as well right so named me make sure I understand so we
-28:06have-we in regular mediate you can run scrapers / datacenter and that's
-28:11actually how we run our typical Prometheus setups and what you would
-28:15normally do is you would just have something like graph fauna in the front
-28:20that would kind of mask the fact that they're in different data centers and
-28:23that's the best way and and we just do it one step further where r scrapers
-28:28will dump to a Casca ok and them it's not possible to feel that into a vanilla
-28:34premier feels that's why you so the regular media supports these two so like
-28:40a regular Prometheus you can just scrape / region and and just use the UI to mask
-28:46that ok
-28:52i'm at the beginning of the talk you said you and outed a lot of open TCB
-29:01things that you just thought and about the historical data in there yeah it's a
-29:10good question
-29:11so the cluster was kind of unmanaged so historical data we have very little
-29:17pieces of historical data that are important to us things like CPU and
-29:21memory usage aren't typically important to our business things like the wear of
-29:26the servers are like if we have certain parts that are dying but we weren't
-29:31tracking a lot of that an open dstv and that was one of the big reasons why we
-29:36needed to do this calf cut because there were pieces of data that were costing
-29:39the business a lot of hunting
-29:43ok any other questions asked on how big sharks on the cluster what kind of QPS
-29:53you pushing through that one more time how big is your Cassandra cluster and
-29:57what kind of QPS are you pushing through
-30:00I'm so we have our initial cluster is just 10 notes but we're doing where it's
-30:07a pretty small metric set so basically we're only giving 40 metrics per machine
-30:11and it's like about we're scaling up to about a million machines so that's still
-30:18quite small as we start to roll out things like allowing the customers to
-30:21add arbitrary metrics we're gonna have to scale out the cluster is exactly PS i
-30:27have no idea we're not even barely scratching at no.2 Sandra cluster ok
-30:35everybody can ask myself the question the the previous proxy that just be
-30:42shopping in the initial setup if you do anything that would aggregate across
-30:46those shouting labels it was just it just errors and in our case we didn't
-30:52really care too much because we were monitoring individual servers but it was
-30:58it was the only option we had right
-31:00ok so unfortunately no distributed clear evaluation yet no I don't have you have
-31:06you seen any ways of doing this area no no that's whatever okay anybody else
-31:13it's not the case so we can do phone
-31:19thank you again
+this is matthew from digitalocean last year at velocity Julius that I velocity
+New York that many velocities we visited the digital ocean office and that was
+the first time we realized somebody's out there that runs a bigger Prometheus
+setup and soundcloud was pretty nice because we always consider ourselves the
+biggest user of previous but then now there are many bigger uses i guess some
+are doing real things but digitalocean scales to millions of machines that
+that's what method will tell us about cool awesome thanks
+yeah so the original top title was about scaling prometheus 2 million machines
+but i thought i would change it to how we broke Prometheus in every way
+possible
+I think it's about more fun to talk about how we broke things and how we got
+past all the breaking this is a show a hand here
+who here has like a million things that they're monitoring with Prometheus all
+there's one others to other people
+ah well I mean I'm talking millions of scrape targets
+ok how about tens of thousands thousands
+okay we got like four alright and then hundreds i would expect at least the
+whole audience should have hundreds ok cool so hopefully next year we'll have a
+lot more people that will have much larger installations and we'll be
+breaking new ground here so just really quick about me I work on the x use team
+in digital ocean i live in bangkok so i may have traveled the farthest anybody
+here travel farther than Bangkok to get here all indonesia alright awesome so I
+I didn't win this one
+yeah so i kinda want to structure this talk is kind of the dark days of
+devotion before we found Prometheus to where we are now where we have a million
+Prometheus servers so when I originally started at digital ocean every single
+team had a different monitoring and metric solution
+there's teams that were run
+graphite their teams there were running influx DB and for some godforsaken
+reason we had a 50 node openbsd be cluster which somehow inherited when I
+started there so one of the first things we did was just turn that off so we
+started using this Prometheus thing so I my managers of tiny and he's going to
+give a talk later is a he's like this Prometheus thing looks pretty cool so we
+started to use it and it was really small at the beginning we were just kind
+of monitoring a few microservices here and there and basically each team had
+their own Prometheus server and each team would manually set up their
+community server with manual targets they would scrape each one of their
+nodes every time a new microservice would come online they would just add a
+new node to their to their manual configs right and as you can imagine
+like this was like kind of a very untenable thing because all of a sudden
+we were in charge of metrics but there were a hundred different metric servers
+running in the company so what were all the different kinds of problems so like
+once a group got a Prometheus server up they never upgraded the version so if
+you want to run queries you would have different query functions on every
+single group server and then when we were startup so we're vastly quickly
+moving we would just lose / media servers and we would refine them when we
+have issues or the ops team was having a problem we just went nowhere where to
+look to find all the different metrics so we slowly try to like fix this
+problem and if this was like kind of the first step and what we found was console
+and Prometheus who here is using console and prometheus
+yes like a quarter of the audience
+hopefully I can convince to get like three fourths of the audience of the
+awesome so the first step was was linking console with Prometheus which
+was like was really fundamental so basically
+we did is we got a set of centralized for media servers we call our pandora
+and we linked everything every time a new microservice came up in the company
+they would have a console entry for the metrics and . so that way we only added
+the configs once into console and the Prometheus would get all the micro
+service instances because a lot of times we would be spinning up and down
+machines the ops teams can also if we have like a failed microservice they
+might have to spin up new boxes and that way the metrics are still being flowing
+into the Prometheus server so this is kind of like a diagram of how we started
+to get there so now at this point we have maybe about a dozen teams and we're
+monitoring a dozen different microservices with one Prometheus server
+now a rather large Prometheus server but it was still one and we could we could
+scale it out pretty quickly so everybody in the company was really happy so we
+were we were slowly now like there was a clear movement now that pretty much all
+the other metric systems were going away and we're going to move everything onto
+Prometheus ok just this one hammer for everything right so the stage 2 so the
+head of the ops team came to me and they said okay we want to monitor every
+single one of our hypervisor so digitalocean is a cloud and basically
+resale virtual machines so we have tens of thousands of servers across about 11
+data centers and we wanted to take Prometheus from now from like a hundred
+micro services that were monitoring 210 20,000 servers that we wanted to get
+metrics from we said cool we'll try it out and see what happens right so the
+first kind of the first way we experimented with this this diagram is a
+bit hard to read but basically what we did was we we set up a single Prometheus
+server / / data center and we have that Prometheus server scrape every single
+physical node in the region using node exporter right
+and for some of the smaller regions this work fine so if we had a thousand
+machines 2000 machines we were able to actually scrape it some of the larger
+regions like our new york data center we actually have three data centers in New
+York we couldn't get 10,000 machines onto a single Prometheus server
+obviously so was like okay what are all the kinds of tricks that we can do so
+obviously the first thing we did was lower the retention window
+we're just going to keep three days of data right like that's that's the first
+one we started to add new flag to the note exporter so we could drop metrics
+that weren't important so you see you'll see some of our people across on that
+and then we kept buying larger and larger machines for the single
+Prometheus instance until we kind of maxed out the machine that we could
+actually buy for the Prometheus and we still couldn't get our new york region
+so all of our other regions we could we could well all about a couple of the
+region's we could do so we said before we do that the the other thing is is the
+other thing we found out was that tuning is incredibly important there's actually
+a good tuning dock on the website that you'll skip but if you're running up
+Prometheus I didn't see it actually had to have the permit these guys come to
+our office and tell us that there was a tuning guide so yes this guy SAT with me
+so I that was the only reason we were able to scale it initially so whatever i
+recommend if you're running Prometheus on a server that's more than eight
+gigabytes of RAM which I hope you probably are you really have to tweak
+each one of these settings
+otherwise you're not going to use the full machine and there's really good
+guides i'm not going to go deep into it but if you want to grab me i'm i'm happy
+to show you like how we configure these things and how we how we actually
+optimize a lot of these tuning options so the first thing we did was so now
+that we wanted to tackle the big regions we started to shard the Prometheus
+servers is anybody here using starting with prometheus
+ok only about four people five people
+okay yeah now I understand it's still a bit rough it's still a bit rough on the
+charting so if you're not familiar with charting essentially in prometheus you
+can configure a label that you want the Prometheus servers to short against so
+what we ended up doing was having something like chef deploy multiple
+previous servers and then tell each Prometheus server which node in the
+shard it was and we were able to spin up like three Prometheus servers in the
+region and we were able to scrape about 10,000 hypervisors and this actually
+worked
+we are able to scale this and we were able to get this onto about three
+servers right but then here comes the problem there's no way to query the data
+if you don't know where the data is on the different shards so we wrote this
+thing in an afternoon literally called the Prometheus proxy and basically the
+Prometheus proxy is a sharding proxy so for our internal users that digitalocean
+we have a giant Groupon instance and the graft on instance . the Prometheus proxy
+and the Prometheus proxy will determine will actually parse the Prometheus
+queries and determine which shard to get the data from and that's how we are
+actually able to like scale out and we could we could spin up like six or eight
+different Prometheus servers and the previous proxy would handle it and graph
+on I wouldn't have to know his grandfather has no idea of starting or
+anything like that so it was really cool so if you took like a random Prometheus
+query like this basically what would the Prometheus proxy would do would be break
+down each part of the Prometheus query and it would pick a label seven for
+instance we were using the instance label and it would actually determine
+which of the nodes of the shard for that instance it would go to and that way you
+could have things that didn't know anything about prometheus sharding could
+use could use it
+so then the next issue is where this was good so we can finally monitor all of
+our data centers with Prometheus we could have 10,000 hypervisors monitored
+and we're likecool
+now i want to alert I want to alert because we hated nigeria's I don't know
+it is anybody here hate messages
+yes whole room His Majesty that was kind of a loaded question
+so we're like maybe we could get rid of this not obvious thing if we just use
+the alert manager and we did things like we get alerting on this space so at
+least a year ago when we initially looked at the alerting manager there was
+no really good way of doing a high-availability setup and for our
+setup there is no option to not have high availability
+I'm so what we ended up doing was we took a fork of the alert manager and we
+backed it with just a my sequel database it was really simple so basically we
+have the alert manager behind a load balancer and every alert goes into the
+my sequel database and if it's already there it can do d duping and that way we
+can have multiple alert managers going and then the clusters not going to fall
+over
+I think I looked at some of the new commits it looks like there's actually
+now an interface to do this properly when we originally did this we really
+had to hack it in and I think there's like a mesh interface that somebody's
+adding which looks kinda cool but this was actually able to we actually were
+able to get this into production and work pretty well and we could run this
+at a scale you know thousands of alerts an hour
+no problem you know yet so just to go back so now we've been running the
+sharding for like a month or two and now we start to see all the real kind of
+gotchas with the sharding right what happens when you need to grow the
+cluster so as we were growing as a business we needed more Prometheus
+servers
+well if you want to add a sharp you've now just lost all your history right
+because the distribution of the shard you have mission data
+so we said okay the way will solve it is will just spin up 10 / media servers
+instead of three in every region so we ended up having huge amounts of these
+kind of like wasted Prometheus servers kind of laying around the other thing is
+if we lost a single node we were losing data and we still had very limited data
+windows so we were still operating and under like a week of data for most of
+our servers so it's starting still didn't solve a lot of our problems
+ok so then we were like okay how could we at least solve the data integrity
+issue so we took that we took a step back and we said what if we store all
+the metrics into Caprica before they come into Prometheus so we rebuilt a new
+version of the push gateway and a special version of Prometheus that was a
+scraper only and we had both push gateway in the scraper push data into a
+Kappa and we did a special fork of Prometheus that was actually reading the
+data from Caprica into memory so if we wanted to rebuild that if we wanted to
+bri build the Prometheus instance we could rebuild the data from Africa or if
+we wanted to rebuild the shard cluster we could rebuild it from the whole Kafka
+so this was a really kind of a fun experiment we never actually went live
+with this because we ended up going with a much better solution but it was kind
+of an interesting half step of getting up being having some kind of reliability
+so kind of the main project that I've been tasked for was giving metrics to
+our customers so we have we have a we have something in the low millions of
+customers right now like of actual virtual machines and for each virtual
+machine we need to give very standard metrics and in fact we want to give like
+custom metrics and stuff to our end users so we said we really wanted to
+power this whole UI with Prometheus and we said okay how can we move from the
+tens of thousands to a million servers with Prometheus and at the current
+moment with the shorting solution it just didn't seem like that was going to
+be a possible it was going to really be possible so we said we were looking
+we've said all we're gonna have to dump Prometheus we have to do something else
+so we started to dig into it and up and we started to build some new tools we
+built a special version of the note exporter but it's a reverse note
+exporter and basically what it is is it's a note explorer that we can give
+the customers and it authenticates and it pushes data to digital ocean so if
+you want to get metrics about your virtual machine or you're my sequel or
+stuff you install it on your virtual machine and it pushes into a special
+push gateway that is authenticated and the first reason we did this is that way
+we can out we can have like a funnel into Prometheus so we can have the push
+gateway actually be kind of like this push back into Prometheus and we can
+authenticate because right now there's no really good way to do if you have
+untrusted Prometheus entries there's no good way to like have trust
+relationships we also built a special clearing API on top of Prometheus where
+we built the grp see an HTTP server for customers and what we do is we limit the
+amount of Prometheus queries that they can actually go into the Prometheus back
+end so we can still take advantage of all the nice query create capabilities
+without people potentially stealing data from different custom
+and I don't know if you saw twitter but we just came out with this new thing
+called Vulcan basically Vulcan is kind of our for prometheus right now and the
+way to think of this is that Vulcan is kind of our experiment with Prometheus
+and what I hope is over time these pieces slowly but surely moved back into
+the core Prometheus and that Vulcan just could go away but for now like this is
+kind of how we're we're actually scaling Prometheus and what what is Vulcan it's
+completely the Prometheus API in fact we use the entire crew Prometheus code base
+except that instead of a local store we use a Cassandra back store and instead
+of just regular we have regular scrapers but all the scrapers go into Casca and
+we have special katha writers from Africa into Cassandra so that way the
+Prometheus server can scale out with a centralized database and can actually
+scale up to like a million machines now right now we've had a like limit the
+amount of query types we need to do we can do against the sender store but
+that's what we're going to be scaling overtime and I saw like some of the
+latest commit and master it looks like some other people must be working on
+some similar stuff because all the interfaces on local storage change
+sounds like how that's quite odd so hopefully if you're working on something
+you should grab me a maybe we can that we can all collaborate so here's kind of
+a diagram of how r Cassandra back store works well this is a bit fuzzy but
+basically what's happening is in each region we have metrics scrapers and push
+gateways and they're all pushing data into a data store we have a special
+reader from the castle score that's driving directly into Cassandra and then
+we have a special version of Prometheus that can read from the can read from the
+Cassandra store so Prometheus really doesn't need to know anything about
+casca but it allows it to it and then it just it only does read
+now so it does no writing
+and now we can start doing cool features like down sampling right and we do a
+really crazy half of how we do down sampling so what I do is I run it in
+memory version of Prometheus and I feed it the data from Africa and I only keep
+it for the . i need and then I just make queries against it and i use those
+queries and I write them into Cassandra so the downsampling engine is actually
+Prometheus so it would be really easy to probably to take the downsampling we've
+done and kind of rebuild it into the corporate media server because we needed
+to get intervals of up to 18 months and at our size we couldn't we couldn't
+store raw data at that size the other kind of really fun thing is we built an
+in-memory alerting system and this is kind of something that i'm actually
+working on right now
+not this parts not open source yet but i really wanted the alerting system to be
+really high availability because we're going to start giving it the customers
+so customers can say like if the disc of their virtual machine fails so now we
+have millions of machines that we need to alert on
+so what we've done is we take a very standard in memory version of Prometheus
+and we have it scrape Africa source into memory and we just have standard
+alerting rules in there and the alerting rolls just push into a another caste
+system so we can actually reuse a huge portion of the actual of the Prometheus
+system and make it high availability because each chunk is just reading a
+different capitata partition
+so what is the future some of the things that I would like I would love to see is
+new scraping sources inside of Prometheus so right now it's quite
+difficult to scrape things that aren't HTTP so i would love to see a way for
+things like can say forecast to be actually scraped into the corporate
+media server that would actually open up a lot of opportunities one of the
+biggest issues we've seen is $MONEY per series expire ease of time series
+it seems like the plug-in storage stuff is being worked on
+I know some people on the mailing list have been talking about using remote
+storage but we ended up using the local interface and we found that ended up
+working a lot better for us and really having high availability
+alerting so to kind of wrap it up
+I talked a lot of kind of about the future where we're going with Cassandra
+and this but for the vast majority of the people here I don't think you need
+that yet maybe you'll need that in a year or two when you've really grown
+with the Prometheus but i kinda wanted to illustrate like the different scales
+that we had and things like the sharding or lesser sent Federation should be able
+to handle much smaller loads of even thousands of servers so you don't have
+to feel like you have to do a very custom solution yet but we're always
+looking for help we just open source star Vulcan so please uh please do some
+commits treating
+and that's it
+right i was a lot of stuff i guess there are some questions okay could you
+describe the case and rescue members say that again
+could you describe the custom rescue mother to use to store . sinrich bones
+all this Cassandra schemer
+yeah so the contender schema basically right now it's really simple
+we basically have just a couple tables we have a table that describes all the
+time series and then we have another one that / time-series key we actually have
+all the the data points for that time series and then we break it down by time
+periods for downsampling we actually have a separate tables for down sampling
+you spoke about Vulcan your fork of parameters
+how do you handle it with Prometheus upstream to emerge change that are in
+prometheus into a Vulcan to keep compatibility or is Vulcan completely
+separate for now yeah so we've not been great about this because I was trying to
+pull down stream the other day and all the interface has changed but we are we
+are trying to keep ours at least downstream of Prometheus so that way
+like when we start to want to contribute stuff backwards will be in a good shape
+we haven't moved anything backwards because this has been a large experiment
+we weren't even really sure if this was going to work at all
+hi can you talk more about the push gateway and how that factored into
+authenticating for multi-tenancy cometh right so that yeah so the problem we
+have is that the standard push gateway allows you to send any metric in right
+so one customer could pretend to be another customer right so what we do is
+we have we have a api token that the agent sends to the our special version
+of the push gateway and it limits the metrics you send to only machines that
+you own so we actually tagged the machine ID so that way they can they can
+only they can only spam their own metrics
+I had a question about the reverse note exporter is that something you is in the
+Vulcan source or is that open source at all
+Carlos do we open sourced yet we're well it's on the list at the open-source it's
+not part of Vulcan because it actually works with the standard it works with
+standard / media server so we it's definitely like very high on our list
+open source
+yeah yeah
+either I'm what you shot on in the Africa right now we're doing it on
+customer on that the other way you would do it is probably machine so typically
+for us we never need to do queries across customers and internally we never
+need to do crazy across machines typically
+there is some I think somebody in the front here and the second you said that
+I'm influencing using the local storage interface was easier than the remote
+storage interface did you use the most origins face and he talked a bit more
+about that or problems you encountered all right so we kind of wanted our
+server to be very well integrated into prometheus
+the problem is we weren't i think the remote storage interface is really for
+writing there's not a great story on how to read from the remote storage
+interface and we mostly wanted to read so we really needed to use the local
+storage was really the only interface that could do all the functionality
+there's actually no story i'm reading for I want to ask instead of a
+notification and some of the things you mention it wasn't a possibility to just
+force per unit per customer labeled that could separate the data
+yes we do have we do force a per customer label but we need to
+authenticate it still so that way like random people on the internet because
+it's internet-facing service so you can't just spend up just start writing
+random metrics to our end .
+yeah hi you mentioned that you had scrapers local to the data center
+pushing been into a volcano I guess is that possible to push through it into a
+vanilla Prometheus setup as well right so named me make sure I understand so we
+have-we in regular mediate you can run scrapers / datacenter and that's
+actually how we run our typical Prometheus setups and what you would
+normally do is you would just have something like graph fauna in the front
+that would kind of mask the fact that they're in different data centers and
+that's the best way and and we just do it one step further where r scrapers
+will dump to a Casca ok and them it's not possible to feel that into a vanilla
+premier feels that's why you so the regular media supports these two so like
+a regular Prometheus you can just scrape / region and and just use the UI to mask
+that ok
+i'm at the beginning of the talk you said you and outed a lot of open TCB
+things that you just thought and about the historical data in there yeah it's a
+good question
+so the cluster was kind of unmanaged so historical data we have very little
+pieces of historical data that are important to us things like CPU and
+memory usage aren't typically important to our business things like the wear of
+the servers are like if we have certain parts that are dying but we weren't
+tracking a lot of that an open dstv and that was one of the big reasons why we
+needed to do this calf cut because there were pieces of data that were costing
+the business a lot of hunting
+ok any other questions asked on how big sharks on the cluster what kind of QPS
+you pushing through that one more time how big is your Cassandra cluster and
+what kind of QPS are you pushing through
+I'm so we have our initial cluster is just 10 notes but we're doing where it's
+a pretty small metric set so basically we're only giving 40 metrics per machine
+and it's like about we're scaling up to about a million machines so that's still
+quite small as we start to roll out things like allowing the customers to
+add arbitrary metrics we're gonna have to scale out the cluster is exactly PS i
+have no idea we're not even barely scratching at no.2 Sandra cluster ok
+everybody can ask myself the question the the previous proxy that just be
+shopping in the initial setup if you do anything that would aggregate across
+those shouting labels it was just it just errors and in our case we didn't
+really care too much because we were monitoring individual servers but it was
+it was the only option we had right
+ok so unfortunately no distributed clear evaluation yet no I don't have you have
+you seen any ways of doing this area no no that's whatever okay anybody else
+it's not the case so we can do phone
+thank you again
