@@ -48,6 +48,3 @@ prometheus开始DigitalOcean正式使用后,他们开发一些工具,让promethe
 还是致力于让prometheus更加易用和自动化这方面,让其他团队的成员能够只关心查询和警告这两方面,比如在服务和数据库方面.
 
 DigitalOcean也开源一个工具[vulcan](https://github.com/digitalocean/vulcan)用于保存长期数据,同时保留了PromQL
-
-
-# prometheus使用案例之ShuttleCloud
