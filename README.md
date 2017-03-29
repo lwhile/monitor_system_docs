@@ -25,6 +25,8 @@
 
 - [ ] [PromQL教程](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/PromQL教程.md)
 
+- [ ] [push网关](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/push网关.md)
+
 
 ### zabbix
 
