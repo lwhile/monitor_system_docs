@@ -6,7 +6,7 @@
 
 - [x] [push与pull的区别](https://github.com/lwhhhh/monitorDoc/blob/master/push%E4%B8%8Epull%E7%9A%84%E5%8C%BA%E5%88%AB.md)
 
-- [ ] [开源监控方案对比](https://github.com/lwhhhh/monitorDoc/blob/master/开源监控系统对比.md)
+- [x] [开源监控方案对比](https://github.com/lwhhhh/monitorDoc/blob/master/开源监控系统对比.md)
 
 - [ ] [时序数据库与关系数据库](https://github.com/lwhhhh/monitorDoc/blob/master/时序数据库与关系数据库.md)
 
