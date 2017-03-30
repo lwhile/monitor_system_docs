@@ -23,6 +23,8 @@
 
 - [x] [prometheus是如何做数据存储的](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/prometheus是如何做数据存储的.md)
 
+- [ ] [数据模型](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/数据模型.md)
+
 - [ ] [PromQL教程](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/PromQL教程.md)
 
 - [ ] [push网关](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/push网关.md)
