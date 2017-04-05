@@ -60,3 +60,59 @@ prometheus提供一个push网关让一些监控指标以push的方式输出到�
 目前可以提供的类型有:
 
   - Go语言的HTTP API访问统计
+
+
+
+## 数据的输出格式
+
+有两种输出格式可选:
+
+- text
+
+    \# HELP api_http_request_count The total number of HTTP requests.
+
+    \# TYPE api_http_request_count counter
+
+    http_request_count{method="post",code="200"} 1027 1395066363000
+
+    http_request_count{method="post",code="400"}    3 1395066363000
+
+    \# Escaping in label values:
+
+    msdos_file_access_time_ms{path="C:\\DIR\\FILE.TXT",error="Cannot find file:\n\"FILE.TXT\""} 
+    1.234e3
+    
+    \# Minimalistic line:
+    
+    metric_without_timestamp_and_labels 12.47
+    
+    \# A weird metric from before the epoch:
+    
+    something_weird{problem="division by zero"} +Inf -3982045
+    
+    \# Finally a summary, which has a pretty complex representation in the text format:
+    
+    \# HELP telemetry_requests_metrics_latency_microseconds A histogram of the response latency.
+    
+    \# TYPE telemetry_requests_metrics_latency_microseconds summary
+    
+    telemetry_requests_metrics_latency_microseconds{quantile="0.01"} 3102
+    
+    telemetry_requests_metrics_latency_microseconds{quantile="0.05"} 3272
+    
+
+- protocol-buffer
+
+**2014年4月之后的prometheus版本都大于0.0.4,其pushgateway不支持JSON**
+
+
+注意事项:
+
+- 编码格式必须为utf8
+- 每一行必须以"\n"做结尾
+- 以任意数量的空格或\t隔开一条监控指标的内容
+- 首尾的空格会被忽略
+- 注释以#开头,并且必须以"HELP"或者"TYPE"做第二个关键字,todo:补充更加详细的文档!
+- 值为float类型,Nan,+Inf,-Inf表示值不可用
+- 时间戳可以自己添加,类型为int64(微妙).若不添加则默认为prometheus server的抓取时间.
+[为什么以抓取时间而不是采集时间]()
