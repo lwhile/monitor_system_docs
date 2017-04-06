@@ -29,6 +29,8 @@
 
 - [ ] [push网关](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/push网关.md)
 
+- [ ] [HTTP API](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/HTTP-API.md)
+
 
 ### zabbix
 
