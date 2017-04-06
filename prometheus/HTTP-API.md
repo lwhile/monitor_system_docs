@@ -32,7 +32,7 @@ API返回数据为JSON格式,每一个成功的HTTP请求返回的状态码为2x
     "result": <value>
     }
 
-\<value\>的数据类型与resultType字段有关,[Expression query result formats]()
+\<value\>的数据类型与resultType字段有关,[查看查询结果的四种resultType](#1)
 
 
 举例
@@ -124,3 +124,102 @@ API返回数据为JSON格式,每一个成功的HTTP请求返回的状态码为2x
 
 ## 查询元信息:
 
+
+>  GET /api/v1/series
+
+参数:
+
+- match[]=\<series_selector\>:返回符合label集合的序列
+- start=\<unix_timestamp\>.
+- end=\<unix_timestamp\>
+
+举例:
+查询所有的符合up或者process_start_time_seconds{job="prometheus"}的集合
+
+**注意:多个match[]参数的之间的关系为或**
+
+    $ curl -g 'http://localhost:9090/api/v1/series?match[]=up&match[]=process_start_time_seconds{job="prometheus"}'
+    {
+    "status" : "success",
+    "data" : [
+        {
+            "__name__" : "up",
+            "job" : "prometheus",
+            "instance" : "localhost:9090"
+        },
+        {
+            "__name__" : "up",
+            "job" : "node",
+            "instance" : "localhost:9091"
+        },
+        {
+            "__name__" : "process_start_time_seconds",
+            "job" : "prometheus",
+            "instance" : "localhost:9090"
+        }
+    ]
+    }
+
+## 查询标签值
+
+> GET /api/v1/label/<label_name>/values
+
+    $ curl http://localhost:9090/api/v1/label/job/values
+    {
+    "status" : "success",
+    "data" : [
+        "node",
+        "prometheus"
+    ]
+    }
+
+## 删除数据
+
+> DELETE /api/v1/series
+
+参数:
+
+- match[]=/<series_selector/>
+
+举例,删除符合up或者process_start_time_seconds{job="prometheus"}的数据:
+
+    $ curl -XDELETE -g 'http://localhost:9090/api/v1/series?match[]=up&match[]=process_start_time_seconds{job="prometheus"}'
+    {
+    "status" : "success",
+    "data" : {
+        "numDeleted" : 3
+    }
+
+<h2 id="1">查询结果的四种resultType</h2>
+
+- matrix
+
+查询某个时间段内的数据返回的vector称为matrix类型,格式如下:
+
+    [
+        {
+            "metric": { "<label_name>": "<label_value>", ... },
+            "values": [ [ <unix_time>, "<sample_value>" ], ... ]
+        },
+        ...
+    ]
+
+
+- vector
+
+查询即使数据返回的结果称为vector,格式如下:
+
+    [
+        {
+            "metric": { "<label_name>": "<label_value>", ... },
+            "value": [ <unix_time>, "<sample_value>" ]
+        },
+        ...
+    ]
+
+*matrix和vector之间的区别在于value字段,一个是单数,一个是复数*
+
+
+- Scalars
+
+- String
