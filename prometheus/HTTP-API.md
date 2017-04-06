@@ -83,8 +83,6 @@ API返回数据为JSON格式,每一个成功的HTTP请求返回的状态码为2x
     "result": <value>
     }
 
-# todo!
-
 举例:
 
     $ curl 'http://localhost:9090/api/v1/query_range?query=up&start=2015-07-01T20:10:30.781Z&end=2015-07-01T20:11:00.781Z&step=15s'
