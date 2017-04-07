@@ -28,9 +28,19 @@
 **(2017.4.7)网关部署在113的9091端口上,API为/metrics**
 
 
-以监控python web的API请求次数为例:
+以python为例:
 
+    import requests
 
+    metrics = 'python_metrics{controller=\"controller_test\"} 123\n'
+
+    headers = {'Content-Type':'text/plain; version=0.0.4'}
+
+    url = 'http://192.168.1.113:9091/metrics/job/job'
+
+    req = requests.post(url, data=metrics , headers=headers)
+
+执行成功后不会返回任何信息,状态码为202
 
 
 <!--## 数据的输出格式
@@ -86,20 +96,6 @@
 - 值为float类型,Nan,+Inf,-Inf表示值不可用
 - 时间戳可以自己添加,类型为int64(微妙).若不添加则默认为prometheus server的抓取时间.
 [为什么以抓取时间而不是采集时间]()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     package pushgateway
 
