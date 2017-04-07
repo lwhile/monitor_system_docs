@@ -4,51 +4,51 @@
 
 ## 索引:
 
-- [x] [push与pull的区别](https://github.com/lwhhhh/monitorDoc/blob/master/push%E4%B8%8Epull%E7%9A%84%E5%8C%BA%E5%88%AB.md)
+- [x] [push与pull的区别](push%E4%B8%8Epull%E7%9A%84%E5%8C%BA%E5%88%AB.md)
 
-- [x] [开源监控方案对比](https://github.com/lwhhhh/monitorDoc/blob/master/开源监控系统对比.md)
+- [x] [开源监控方案对比](开源监控系统对比.md)
 
-- [ ] [时序数据库与关系数据库](https://github.com/lwhhhh/monitorDoc/blob/master/时序数据库与关系数据库.md)
+- [ ] [时序数据库与关系数据库](时序数据库与关系数据库.md)
 
 ### prometheus
-- [x] [prometheus介绍](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/prometheus介绍.md)
+- [x] [prometheus介绍](/prometheus/prometheus介绍.md)
 
-- [x] [测试:部署多个prometheus server节点](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/%E6%B5%8B%E8%AF%95%3A%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAprometheus%20server%E8%8A%82%E7%82%B9.md)
+- [x] [测试:部署多个prometheus server节点](/prometheus/%E6%B5%8B%E8%AF%95%3A%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAprometheus%20server%E8%8A%82%E7%82%B9.md)
 
-- [ ] [如何编写prometheus监控组件](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/如何编写prometheus监控组件.md)
+- [ ] [如何编写prometheus监控组件](/prometheus/如何编写prometheus监控组件.md)
 
-- [x] [使用prometheus监控docker容器](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/使用prometheus监控docker容器.md)
+- [x] [使用prometheus监控docker容器](/prometheus/使用prometheus监控docker容器.md)
 
-- [ ] [整合prometheus与consul](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/整合prometheus与consul.md)
+- [ ] [整合prometheus与consul](/prometheus/整合prometheus与consul.md)
 
-- [x] [prometheus是如何做数据存储的](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/prometheus是如何做数据存储的.md)
+- [x] [prometheus是如何做数据存储的](/prometheus/prometheus是如何做数据存储的.md)
 
-- [x] [数据模型](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/数据模型.md)
+- [x] [数据模型](/prometheus/数据模型.md)
 
-- [ ] [PromQL教程](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/PromQL教程.md)
+- [ ] [PromQL教程](/prometheus/PromQL教程.md)
 
-- [ ] [push网关使用向导](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/push网关使用向导.md)
+- [ ] [push网关使用向导](/prometheus/push网关使用向导.md)
 
-- [x] [HTTP API](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/HTTP-API.md)
+- [x] [HTTP API](/prometheus/HTTP-API.md)
 
 
 
 ### zabbix
 
 - [x] [zabbix安装指南](http://www.jianshu.com/p/4d98ff87db5f)
-- [x] [zabbix介绍](https://github.com/lwhhhh/monitorDoc/blob/master/zabbix/zabbix介绍.md)
+- [x] [zabbix介绍](/zabbix/zabbix介绍.md)
 
 ### InfluxDB
 
-- [ ] [InfluxDB介绍.md](https://github.com/lwhhhh/monitorDoc/blob/master/InfluxDB/InfluxDB介绍.md)
+- [ ] [InfluxDB介绍.md](/InfluxDB/InfluxDB介绍.md)
 
-- [x] [使用InfluxDB做监控平台](https://github.com/lwhhhh/monitorDoc/blob/master/InfluxDB/使用InfluxDB做监控平台.md)
+- [x] [使用InfluxDB做监控平台]/InfluxDB/使用InfluxDB做监控平台.md)
 
-- [ ] [influxdb-relay](https://github.com/lwhhhh/monitorDoc/blob/master/InfluxDB/influxdb-relay.md)
+- [ ] [influxdb-relay](/InfluxDB/influxdb-relay.md)
 
 ## todo:
 
-[进度](https://github.com/lwhhhh/monitorDoc/blob/master/进度.md)
+[进度](进度.md)
 
 ## 代码:
 
