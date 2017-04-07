@@ -1,6 +1,6 @@
 # push网关
 
-可以向push网关以http的方式发送数据,发送的数据会被prometheus server抓取.
+可以向push网关以http的方式发送数据,发送的数据会被prometheus server抓取,实现第三方业务的监控.
 
 
 ![](../asset/images/push_gateway.png)
@@ -28,10 +28,12 @@
 **(2017.4.7)网关部署在113的9091端口上,API为/metrics**
 
 
+以监控python web的API请求次数为例:
 
 
 
-## 数据的输出格式
+
+<!--## 数据的输出格式
 
 有两种输出格式可选:
 
@@ -145,4 +147,4 @@
             fmt.Println(err)
         }
         fmt.Println(body)
-    }
+    }-->
