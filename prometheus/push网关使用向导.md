@@ -1,52 +1,15 @@
 # push网关
 
-    package pushgateway
+可以向push网关以http的方式发送数据,发送的数据会被prometheus server抓取.
 
-    import (
-        "fmt"
-        "io/ioutil"
-        "net/http"
-        "strings"
-    )
+![adsd](/asset/images/push_gateway.png)
 
-    var (
-        countM map[string]int
-    )
+*push网关不负责存储数据,只以对外开放HTTP API的形式输出各个指标最新的一次数据*
 
-    func init() {
-        countM = make(map[string]int)
-    }
 
-    // TestController :
-    func TestController(resp http.ResponseWriter, req *http.Request) {
-        ctrlName := "TestController"
-        req.ParseForm()
-        countM[ctrlName]++
-        sendPushgateway()
-    }
+发送的数据有一定的格式要求,必须是prometheus定义的格式类型.
 
-    func sendPushgateway() {
-        client := &http.Client{}
-
-        sendValue := "some_metrics_test{controller=\"test\"} 1243\n"
-        req, err := http.NewRequest("POST", "http://127.0.0.1:9091/metrics/job/job_test/instance/instance_test", strings.NewReader(sendValue))
-        req.Header.Set("Content-Type", "text/plain;charset=utf-8")
-        if err != nil {
-            fmt.Println(err)
-        }
-
-        resp, err := client.Do(req)
-        if err != nil {
-            fmt.Println(err)
-        }
-        fmt.Printf("resp:%v\n", resp)
-
-        body, err := ioutil.ReadAll(resp.Request.Body)
-        if err != nil {
-            fmt.Println(err)
-        }
-        fmt.Println(body)
-    }
+    <metrics_name>{<instance_name>="<instance_value>",<label_name>="<label_value>"} <value> <timestamp>
 
 
 prometheus提供一个push网关让一些监控指标以push的方式输出到网关上,再有prometheus server去网关抓取,满足一些特殊的场景,比如无法新开一个供pull使用的端口,或者为了安全考虑不允许本机被其他网络访问.
@@ -116,3 +79,65 @@ prometheus提供一个push网关让一些监控指标以push的方式输出到�
 - 值为float类型,Nan,+Inf,-Inf表示值不可用
 - 时间戳可以自己添加,类型为int64(微妙).若不添加则默认为prometheus server的抓取时间.
 [为什么以抓取时间而不是采集时间]()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    package pushgateway
+
+    import (
+        "fmt"
+        "io/ioutil"
+        "net/http"
+        "strings"
+    )
+
+    var (
+        countM map[string]int
+    )
+
+    func init() {
+        countM = make(map[string]int)
+    }
+
+    // TestController :
+    func TestController(resp http.ResponseWriter, req *http.Request) {
+        ctrlName := "TestController"
+        req.ParseForm()
+        countM[ctrlName]++
+        sendPushgateway()
+    }
+
+    func sendPushgateway() {
+        client := &http.Client{}
+
+        sendValue := "some_metrics_test{controller=\"test\"} 1243\n"
+        req, err := http.NewRequest("POST", "http://127.0.0.1:9091/metrics/job/job_test/instance/instance_test", strings.NewReader(sendValue))
+        req.Header.Set("Content-Type", "text/plain;charset=utf-8")
+        if err != nil {
+            fmt.Println(err)
+        }
+
+        resp, err := client.Do(req)
+        if err != nil {
+            fmt.Println(err)
+        }
+        fmt.Printf("resp:%v\n", resp)
+
+        body, err := ioutil.ReadAll(resp.Request.Body)
+        if err != nil {
+            fmt.Println(err)
+        }
+        fmt.Println(body)
+    }
