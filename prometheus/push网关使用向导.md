@@ -25,7 +25,7 @@
 
     some_metrics_test{controller=\"test\"} 1243\n
 
-**(2017.4.7)网关部署在113的9091端口上,API为/metrics**
+**(2017.4.7)网关部署在113的9091端口上,API为/metrics/job/\<job_name\>/instance/\<instance_name\>**
 
 关于prometheus的metrics可查看[数据模型](数据模型.md)
 
@@ -37,7 +37,7 @@
 
     headers = {'Content-Type':'text/plain; version=0.0.4'}
 
-    url = 'http://192.168.1.113:9091/metrics/job/job'
+    url = 'http://192.168.1.113:9091/metrics/job/job_test/instance/instance_test'
 
     req = requests.post(url, data=metrics , headers=headers)
 
