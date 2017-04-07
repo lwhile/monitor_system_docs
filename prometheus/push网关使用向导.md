@@ -3,7 +3,7 @@
 可以向push网关以http的方式发送数据,发送的数据会被prometheus server抓取.
 
 
-![](/asset/images/push_gateway.png)
+![](../asset/images/push_gateway.png)
 
 **注意:push网关不负责存储数据,只以对外开放HTTP API的形式输出各个指标最新的一次数据**
 
