@@ -27,9 +27,10 @@
 
 - [ ] [PromQL教程](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/PromQL教程.md)
 
-- [ ] [push网关](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/push网关.md)
+- [ ] [push网关使用教程](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/push网关使用教程.md)
 
 - [x] [HTTP API](https://github.com/lwhhhh/monitorDoc/blob/master/prometheus/HTTP-API.md)
+
 
 
 ### zabbix
