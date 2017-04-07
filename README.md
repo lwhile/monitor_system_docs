@@ -27,7 +27,7 @@
 
 - [ ] [PromQL教程](/prometheus/PromQL教程.md)
 
-- [ ] [push网关使用向导](/prometheus/push网关使用向导.md)
+- [x] [push网关使用向导](/prometheus/push网关使用向导.md)
 
 - [x] [HTTP API](/prometheus/HTTP-API.md)
 
