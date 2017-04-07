@@ -42,7 +42,7 @@
 
 - [ ] [InfluxDB介绍.md](/InfluxDB/InfluxDB介绍.md)
 
-- [x] [使用InfluxDB做监控平台]/InfluxDB/使用InfluxDB做监控平台.md)
+- [x] [使用InfluxDB做监控平台](/InfluxDB/使用InfluxDB做监控平台.md)
 
 - [ ] [influxdb-relay](/InfluxDB/influxdb-relay.md)
 
