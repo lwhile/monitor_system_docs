@@ -1,4 +1,4 @@
-# push网关
+# push网关使用向导
 
 可以向push网关以http的方式发送数据,发送的数据会被prometheus server抓取,实现第三方业务的监控.
 
