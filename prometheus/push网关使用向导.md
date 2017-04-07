@@ -25,7 +25,7 @@
 
     some_metrics_test{controller=\"test\"} 1243\n
 
-**(2017.4.7)网关部署在113的9091端口上,API为/metrics/job/\<job_name\>/instance/\<instance_name\>**
+**(2017.4.7)网关部署在113的9091端口上,API为POST /metrics/job/\<job_name\>/instance/\<instance_name\>**
 
 关于prometheus的metrics可查看[数据模型](数据模型.md)
 
