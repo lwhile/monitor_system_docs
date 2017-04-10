@@ -31,7 +31,7 @@
 
 - [x] [HTTP API](/prometheus/HTTP-API.md)
 
-- [ ] [监控Nginx](/prometheus/监控Nginx.md)
+- [x] [监控Nginx](/prometheus/监控Nginx.md)
 
 
 
