@@ -33,6 +33,8 @@
 
 - [x] [监控Nginx](/prometheus/监控Nginx.md)
 
+- [ ] [警报器](/prometheus/警报器.md)
+
 
 
 ### zabbix
