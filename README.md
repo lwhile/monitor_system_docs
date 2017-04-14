@@ -54,6 +54,10 @@
 
 - [ ] [Git分支与合并](/Git/Git分支与合并.md)
 
+- [x] [Git由浅入深之分支管理](https://qkldx.net/topic/558/git%E7%94%B1%E6%B5%85%E5%85%A5%E6%B7%B1%E4%B9%8B%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86)
+
+- [x] [Git由浅入深之存储原理](https://qkldx.net/topic/564/git%E7%94%B1%E6%B5%85%E5%85%A5%E6%B7%B1%E4%B9%8B%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86)
+
 ## todo:
 
 [进度](进度.md)
