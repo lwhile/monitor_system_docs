@@ -54,7 +54,7 @@
 
 - [ ] [Git使用中常见问题](/Git/Git使用中常见问题.md)
 
-- [ ] [Git分支与合并](/Git/Git分支与合并.md)
+- [ ] [用Gitea进行协作开发](/Git/使用Gitea进行协作开发.md)
 
 - [x] [Git由浅入深之分支管理](https://qkldx.net/topic/558/git%E7%94%B1%E6%B5%85%E5%85%A5%E6%B7%B1%E4%B9%8B%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86)
 
