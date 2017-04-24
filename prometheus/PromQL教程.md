@@ -21,6 +21,19 @@
 
 ## 聚合操作
 
+1. sum (calculate sum over dimensions)
+2. min (select minimum over dimensions)
+3. max (select maximum over dimensions)
+4. avg (calculate the average over dimensions)
+5. stddev (calculate population standard deviation over dimensions)
+6. stdvar (calculate population standard variance over dimensions)
+7. count (count number of elements in the vector)
+8. count_values (count number of elements with the same value)
+9. bottomk (smallest k elements by sample value)
+10. topk (largest k elements by sample value)
+11. quantile (calculate φ-quantile (0 ≤ φ ≤ 1) over dimensions)
+
+
 ## 函数
 
 1. rate(v range-vector)
