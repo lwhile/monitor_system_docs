@@ -86,3 +86,5 @@
 - [MySQL 性能监控4大指标——第一部分](http://blog.oneapm.com/apm-tech/754.html)
 
 - [MySQL 性能监控4大指标——第二部分](http://blog.oneapm.com/apm-tech/755.html)
+
+- [OpenResty 最佳实践](https://www.gitbook.com/book/moonbingbing/openresty-best-practices)
