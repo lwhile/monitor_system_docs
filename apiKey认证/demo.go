@@ -1,0 +1,5 @@
+package auth
+
+func genSignurate() {
+
+}
