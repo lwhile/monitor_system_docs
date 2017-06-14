@@ -10,3 +10,14 @@
 
 3. 使用sha-256算法对sk与s进行编码, 生成签名signature
 
+
+接下来生成认证字符串:
+
+sunrun-auth-v1/{AK}/{timestamp}/{expire}/{生成签名signature}
+
+添加到 HTTP 请求 Header 的Authorization字段里
+
+[Javascript Demo](/API认证/demo.js) 
+
+
+服务端
