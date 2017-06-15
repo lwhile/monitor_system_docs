@@ -51,7 +51,7 @@ hash.Write([]byte(stringToSign))
 
 服务端接受到请求后, 从数据库读取AK和SK后, 采用相同的处理流程得出signature, 最后根据请求中的signature以及{expire}判断是否合法
 
-[前端Javascript Demo](/apiKey认证/demo.js) 
+[Javascript Demo](/apiKey认证/demo.js) 
 
 
 
