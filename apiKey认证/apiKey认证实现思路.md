@@ -7,27 +7,27 @@
 1. 按照key值的顺序, 将HEADER中的某几个 Header 键值对组合成一个字符串 b 
 
 ```go
-    var b bytes.Buffer
-    keys := make([]string, len(params))
-    pa := make(map[string]string)
-    for k, v := range params {
-        pa[k] = v[0]
-        keys = append(keys, k)
+var b bytes.Buffer
+keys := make([]string, len(params))
+pa := make(map[string]string)
+for k, v := range params {
+    pa[k] = v[0]
+    keys = append(keys, k)
+}
+
+sort.Strings(keys)
+
+for _, key := range keys {
+    if key == "signature" {
+        continue
     }
 
-    sort.Strings(keys)
-
-    for _, key := range keys {
-        if key == "signature" {
-            continue
-        }
-
-        val := pa[key]
-        if key != "" && val != "" {
-            b.WriteString(key)
-            b.WriteString(val)
-        }
+    val := pa[key]
+    if key != "" && val != "" {
+        b.WriteString(key)
+        b.WriteString(val)
     }
+}
 ```
 
 2. 拼接待签名字符串 s : http.method + "\n" + b + "\n" + http.requestURL + "\n"
