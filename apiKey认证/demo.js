@@ -1,6 +1,5 @@
 // 使用到的库: https://github.com/emn178/js-sha256
 
-// 参与签名生成的 header
 // 可以自行决定哪些header需要参与编码,但必须与服务端协商好
 var header_key_to_sign = ['host', 'content-length', 'content-type', 'requestURL']
 
