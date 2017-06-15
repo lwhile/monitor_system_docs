@@ -30,7 +30,7 @@ for _, key := range keys {
 }
 ```
 
-2. 拼接待签名字符串 s : http.method + "\n" + b + "\n" + http.requestURL + "\n"
+2. 拼接待签名字符串 stringToSign : http.method + "\n" + b + "\n" + http.requestURL + "\n"
 
 ```go
 stringToSign := fmt.Sprintf("%v\n%v\n%v\n", method, b.String(), RequestURL)
