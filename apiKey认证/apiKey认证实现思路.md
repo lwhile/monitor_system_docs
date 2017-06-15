@@ -45,7 +45,7 @@ hash.Write([]byte(stringToSign))
 
 接下来生成认证字符串(这一步beego源码里面没有, 而是参考了[相关参考-鉴权认证-简介-百度云](https://cloud.baidu.com/doc/Reference/AuthenticationMechanism.html)):
 
-sunrun-auth-v1/{AK}/{timestamp}/{expire}/{signature}
+> sunrun-auth-v1/{AK}/{timestamp}/{expire}/{signature}
 
 添加到 HTTP 请求 Header 的Authorization字段里
 
