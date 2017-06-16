@@ -4,7 +4,7 @@
 
 当 API 的调用者发出 HTTP 请求时,  需要对请求的内容进行处理, 处理的流程如下(参考beego的认证流程):
 
-1. 按照key值的顺序, 将HEADER中的某几个 Header 键值对组合成一个字符串 b 
+1. 按照key值的顺序, 将HEADER中的某几个 Header/Query 键值对组合成一个字符串 b 
 
 ```go
 var b bytes.Buffer
